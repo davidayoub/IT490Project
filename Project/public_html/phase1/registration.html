@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<php>
+<!--<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset= "UTF-8">
@@ -19,20 +18,21 @@
                         <input type="text" name="name" class= "form-control" required>
                     </div>
                     <div class="form-group">
-                        <label> Email Address</label>
-                        <input type="email" name="email" class="form-control" required />
+                        <label> Username</label>
+                        <input type="text" name="username" class="form-control" required maxlength="30" required/>
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" name="password" class="form-control" required>
+                        <input type="password" name="password" class="form-control" required minlength="8" required>
                     </div>
                     <div class="form-group">
                         <label>Confirm Passoword</label>
-                        <input type="password" name="confirm_password" class="form-control" required>
+                        <input type="password" name="confirm_password" class="form-control" required minlength="8" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="submit" class= "btn btn-primary" value="Submit">
+                        <input type="submit" name="submit" class= "btn btn-primary" value="submit">
 </div>
+                <p>Already have an account? <a href="login.html">Login here</a>.</p>
                 </form>
             </div>
         </div>
