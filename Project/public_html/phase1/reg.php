@@ -1,6 +1,5 @@
 <?php
-
-require_once "config.php";
+require_once "/Users/david/IT490/Project/public_html/Phase1/IT490Project/library/config.php";
 require_once "session.php";
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit']))
