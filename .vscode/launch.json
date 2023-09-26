@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open loginRegister.html",
-            "file": "/Users/david/IT490/Project/public_html/Phase1/IT490Project/frontend/html/loginRegister.html"
+            "file": "/Users/david/IT490/Project/public_html/Phase1/IT490Project/frontend/html/login.html"
         }
     ]
 }
