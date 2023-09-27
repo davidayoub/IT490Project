@@ -54,23 +54,22 @@
         
 
         <!-- Register Model -->
+        <form onsubmit="return validate(this)" method="POST">
         <div class="container">
             <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>
             <hr>
         
             <label for="email"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="Username" id="Username" required>
+            <input type="text" placeholder="Enter Username" name="Username" id="Username" required maxlength="30">
         
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+            <input type="password" placeholder="Enter Password" name="psw" id="psw" required minlength="8">
         
             <label for="psw-repeat"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required minlength="8">
             <hr>
-        
-            <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-            <button type="submit" class="registerbtn">Register</button>
+            <input type="submit"><button class="block">Register
           </div>
         
           <div class="container signin">
@@ -104,3 +103,6 @@
 
       </body>
     </html>
+    <?php
+
+
