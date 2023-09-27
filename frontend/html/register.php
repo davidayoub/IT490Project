@@ -1,6 +1,7 @@
 <!doctype html>
     <html lang="en">
       <head>
+         
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,11 +20,7 @@
 
       </head>
       <body>
-
-
-          
-        </nav>
-
+</nav>
 
         <div class="container-fluid">
             <div class = "row">
@@ -51,59 +48,98 @@
                 </div>
             </div>
         </div>
-        
 
-        <!-- Register Model -->
-        <form onsubmit="return validate(this)" method="POST">
-        <div class="container">
+
+<form onsubmit="return validate(this)" method="POST">
+    <div class="container">
             <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>
             <hr>
-        
-            <label for="email"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="Username" id="Username" required maxlength="30">
-        
-            <label for="pw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" id="psw" required minlength="8">
-        
-            <label for="confirm"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required minlength="8">
-            <hr>
-            <input type="submit"><button class="block">Register
-          </div>
-        
-          <div class="container signin">
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Enter Email" name="email" required />
+    </div>
+    <div>
+        <label for="username">Username</label>
+        <input type="text" placeholder="Enter Username" name="username" required maxlength="30" />
+    </div>
+    <div>
+        <label for="pw">Password</label>
+        <input type="password" placeholder="Enter Password" id="pw" name="password" required minlength="8" />
+    </div>
+    <div>
+        <label for="confirm">Confirm</label>
+        <input type="password" placeholder="Confirm Password" name="confirm" required minlength="8" />
+        <hr>
+        <input type="submit"><button class="block">Register
+    </div>
+    
+
+    <div class="container signin">
             <p>Already have an account? <a href="login.html">Sign in</a>.</p>
           </div>
-        </form>
+
+</form>
 
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+    function validate(form) {
+        //TODO 1: implement JavaScript validation
+        //ensure it returns false for an error and true for success
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-<!--        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
-          
-          
-          <!--Local Bootstrap JS -->
-          <script src = "../bootstrap/js/bootstrap.min.js">
-              
-          </script>
+        return true;
+    }
+</script>
+<?php
+ //This is going to be a helper for redirecting to our base project path since it's nested in another folder
 
 
-        <!-- Local bootstrap -->
-        <script src="../bootstrap/js/bootstrap.min.js"></script>
-        
-        <script type="text/javascript" src="../js/scripts.js">
+ function se($v, $k = null, $default = "", $isEcho = true)
+{
+    if (is_array($v) && isset($k) && isset($v[$k])) {
+        $returnValue = $v[$k];
+    } else if (is_object($v) && isset($k) && isset($v->$k)) {
+        $returnValue = $v->$k;
+    } else {
+        $returnValue = $v;
+        //added 07-05-2021 to fix case where $k of $v isn't set
+        //this is to kep htmlspecialchars happy
+        if (is_array($returnValue) || is_object($returnValue)) {
+            $returnValue = $default;
+        }
+    }
+    if (!isset($returnValue)) {
+        $returnValue = $default;
+    }
+    if ($isEcho) {
+        //https://www.php.net/manual/en/function.htmlspecialchars.php
+        echo htmlspecialchars($returnValue, ENT_QUOTES);
+    } else {
+        //https://www.php.net/manual/en/function.htmlspecialchars.php
+        return htmlspecialchars($returnValue, ENT_QUOTES);
+    }
+}
+function flash($msg = "", $color = "info")
+{
+    $message = ["text" => $msg, "color" => $color];
+    if (isset($_SESSION['flash'])) {
+        array_push($_SESSION['flash'], $message);
+    } else {
+        $_SESSION['flash'] = array();
+        array_push($_SESSION['flash'], $message);
+    }
+}
 
-        </script>
+function sanitize_email($email = "")
+{
+    return filter_var(trim($email), FILTER_SANITIZE_EMAIL);
+}
+function is_valid_email($email = "")
+{
+    return filter_var(trim($email), FILTER_VALIDATE_EMAIL);
+}
 
 
-      </body>
-    </html>
-    <?php
 //TODO 2: add PHP Code
 if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
     $email = se($_POST, "email", "", false);
@@ -168,6 +204,3 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
 <?php
 require(__DIR__ . "/../../partials/flash.php");
 ?>
-
-
-
