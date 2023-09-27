@@ -54,23 +54,22 @@
         
 
         <!-- Register Model -->
+        <form onsubmit="return validate(this)" method="POST">
         <div class="container">
             <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>
             <hr>
         
             <label for="email"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="Username" id="Username" required>
+            <input type="text" placeholder="Enter Username" name="Username" id="Username" required maxlength="30">
         
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+            <label for="pw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" id="psw" required minlength="8">
         
-            <label for="psw-repeat"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+            <label for="confirm"><b>Repeat Password</b></label>
+            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required minlength="8">
             <hr>
-        
-            <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-            <button type="submit" class="registerbtn">Register</button>
+            <input type="submit"><button class="block">Register
           </div>
         
           <div class="container signin">
@@ -104,3 +103,71 @@
 
       </body>
     </html>
+    <?php
+//TODO 2: add PHP Code
+if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
+    $email = se($_POST, "email", "", false);
+    $password = se($_POST, "password", "", false);
+    $confirm = se($_POST, "confirm", "", false);
+    $username = se($_POST, "username", "", false);
+    //TODO 3
+
+
+    //$errors = [];
+    $hasError = false;
+    if (empty($email)) {
+        flash("Email must not be empty");
+        $hasError = true;
+    }
+    //$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $email = sanitize_email($email);
+    //validate
+    //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!is_valid_email($email)) {
+        flash("Invalid email");
+        $hasError = true;
+    }
+    if (!preg_match('/^[a-z0-9_-]{3,30}$/i', $username)) {
+        flash("Username must only be alphanumeric and can only contain - or _");
+        $hasError = true;
+    }
+    if (empty($password)) {
+        flash("password must not be empty");
+        $hasError = true;
+    }
+    if (empty($confirm)) {
+        flash("Confirm password must not be empty");
+        $hasError = true;
+    }
+    if (strlen($password) < 8) {
+        flash("Password too short");
+        $hasError = true;
+    }
+    if (strlen($password) > 0 && $password !== $confirm) {
+        flash("Passwords must match");
+        $hasError = true;
+    }
+    if ($hasError) {
+        //flash("<pre>" . var_export($errors, true) . "</pre>");
+    } else {
+        //flash("Welcome, $email"); //will show on home.php
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+        //$db = getDB();
+        $stmt = $db->prepare("INSERT INTO Users (email, password, username) VALUES(:email, :password, :username)");
+        try {
+            $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
+            flash("You've registered, yay...");
+        } catch (Exception $e) {
+            /*flash("There was a problem registering");
+            flash("<pre>" . var_export($e, true) . "</pre>");*/
+            //users_check_duplicate($e->errorInfo);
+        }
+    }
+}
+?>
+<?php
+require(__DIR__ . "/../../partials/flash.php");
+?>
+
+
+
