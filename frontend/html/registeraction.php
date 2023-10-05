@@ -37,7 +37,7 @@ if($stmt = $conn->prepare('SELECT id, password FROM users WHERE username = ?'))
         if($stmt = $con->prepare('INSERT INTO users (username, password, email) VALUES (?, ?, ?'))
         {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $stmt->bind_param('sss' , $_POST['username'], $password, $_POST['email']);
+            $stmt->bind_param('sss' , $_POST['username'], $_POST['password'], $_POST['email']);
             $stmt->execute();
             echo 'Successfully Registered';
         }
