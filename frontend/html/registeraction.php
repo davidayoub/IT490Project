@@ -1,5 +1,5 @@
 <?php
-$DATABASE_HOST = 'localhost';
+$DATABASE_HOST = '127.0.0.1';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
 $DATABASE_NAME = 'form';
@@ -21,7 +21,7 @@ if(empty($_POST['username'] || empty($_POST['password']) || empty($_POST['email'
     exit('Values Empty');
 }
 
-if($stmt = $conn->prepare('Select id, password FROM users WHERE username = ?'))
+if($stmt = $conn->prepare('SELECT id, password FROM users WHERE username = ?'))
 {
     $stmt->bind_param('s', $_POST['username']);
     $stmt->execute();
@@ -34,7 +34,7 @@ if($stmt = $conn->prepare('Select id, password FROM users WHERE username = ?'))
 
     else
     {
-        if($stmt = $con->prepare('INSERT INTO users (username, password, emai) VALUES(? , ? , ? )'))
+        if($stmt = $con->prepare('INSERT INTO users (username, password, email) VALUES (?, ?, ?'))
         {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $stmt->bind_param('sss' , $_POST['username'], $password, $_POST['email']);
@@ -45,8 +45,9 @@ if($stmt = $conn->prepare('Select id, password FROM users WHERE username = ?'))
         {
             echo 'Error Occurred';
         }
-        $stmt->close();
+
     }
+    $stmt->close();
 }
 else
 {
