@@ -1,5 +1,5 @@
 <?php
-
+/*
 // Starting a PHP session which allows you to store data to be easily accessed across pages
 session_start();
 
@@ -119,7 +119,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
 
 // Close the database connection
 $con->close();
-
+*/
 ?>
 
 <!doctype html>
@@ -191,6 +191,8 @@ $con->close();
                             Remember Me
                         </label>
                         <button type="submit" class="btn btn-primary w-full">Sign In</button>
+                        <p class="text-center">Forgot password? <a href="login.html">Reset</a>.</p>
+
                     </div>
                 </form>
             </div>
@@ -219,7 +221,6 @@ $con->close();
                             <input type="password" class="input input-bordered w-full bg-beige" placeholder="Confirm Password" name="confirm" required minlength="8">
                         </div>
                         <button type="submit" class="btn btn-info w-full">Register</button>
-                        <p class="text-center">Already have an account? <a href="login.html">Sign in</a>.</p>
                     </div>
                 </form>
             </div>
