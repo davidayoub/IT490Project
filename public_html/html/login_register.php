@@ -1,5 +1,5 @@
 <?php
-/*
+
 // Starting a PHP session which allows you to store data to be easily accessed across pages
 session_start();
 
@@ -29,7 +29,7 @@ function is_valid_email($email = "") {
 
 // Database connection parameters
 $DATABASE_HOST = '127.0.0.1';
-$DATABASE_USER = 'root';
+$DATABASE_USER = 'TestUser';
 $DATABASE_PASS = '12345';
 $DATABASE_NAME = 'form';
 
@@ -90,6 +90,26 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
 
     // If there are no validation errors
     if (!$hasError) {
+        // making sure DB exists after validation
+        try {
+            // if it fails we don't have a db named forms.users
+            $query = $con->prepare('SELECT id FROM users');
+            $query->execute();
+            $query->store_result();
+        }
+
+        catch(Exception $e) { // storing the specific exception in $e
+            if(empty($query)) { // redundant?
+                $query = $con->prepare("CREATE TABLE form.users (
+                id INT NOT NULL AUTO_INCREMENT,
+                email VARCHAR(255) NOT NULL,
+                username VARCHAR(255) NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                PRIMARY KEY (id)
+                )");
+                $query->execute();
+            }
+        }
         // Check if the username is already taken
         if ($stmt = $con->prepare('SELECT id FROM users WHERE username = ?')) {
             $stmt->bind_param('s', $username);
@@ -119,7 +139,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
 
 // Close the database connection
 $con->close();
-*/
+
 ?>
 
 <!doctype html>
