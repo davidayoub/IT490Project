@@ -221,7 +221,7 @@ $con->close();
         <!-- Registration Modal -->
         <div id="registerModal" class="w-1/2 p-4">
             <div class="bg-white p-4 rounded space-y-4">
-                <h5 class="text-3xl font-bold text-autumn-primary mt-4">Register</h5>
+                <h5 class="text-3xl font-bold text-autumn-primary mt-4">Register now</h5>
                 <form onsubmit="return validate(this)" method="POST">
                     <div class="space-y-4">
                         <div>
