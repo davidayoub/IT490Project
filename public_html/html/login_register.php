@@ -111,7 +111,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
             }
         }
         // Check if the username is already taken
-        if ($stmt = $con->prepare('SELECT id FROM users WHERE username = ?')) {
+        if ($stmt = $con->prepare('SELECT id FROM users WHERE name = ?')) {
             $stmt->bind_param('s', $username);
             $stmt->execute();
             $stmt->store_result();
@@ -121,7 +121,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
                 flash($_SESSION, 'Username Already Exists. Try Again');
             } else {
                 // Otherwise, try to insert the new user into the database
-                if ($stmt = $con->prepare('INSERT INTO users (username, password, email) VALUES (?, ?, ?)')) {
+                if ($stmt = $con->prepare('INSERT INTO users (name, password, email) VALUES (?, ?, ?)')) {
                     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                     $stmt->bind_param('sss', $username, $hashedPassword, $email);
                     $stmt->execute();
