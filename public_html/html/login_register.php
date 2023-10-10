@@ -1,7 +1,7 @@
 <?php
+require(__DIR__ . "/../../partials/nav.php");
 
 // Starting a PHP session which allows you to store data to be easily accessed across pages
-session_start();
 
 // Function to display a flash message, given a session and message parameters
 function flash(&$session, $msg = "", $color = "info") {
@@ -185,7 +185,6 @@ $con->close();
     <div class="p-4"> <!-- Add padding to this container -->
         <div class="text-center space-y-4">
             <h1>Welcome!</h1>
-            <h2>Welcome to our website!</h2>
         </div>
     </div>
 
