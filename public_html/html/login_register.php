@@ -1,8 +1,8 @@
 <?php
 //require(__DIR__ . "/../../../partials/nav.php");
 require(__DIR__ . "/../../partials/nav.php");
-require(__DIR__). "/../../partials/login_registration.php"
-// Starting a PHP session which allows you to store data to be easily accessed across pages
+require(__DIR__). "/../../partials/login_registration.php";
+
 ?>
 
 <body class="bg-white">
@@ -76,6 +76,3 @@ require(__DIR__). "/../../partials/login_registration.php"
 <?php
 require(__DIR__ . "/../../partials/footer.php");
 ?>
-
-
-

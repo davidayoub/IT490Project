@@ -1,28 +1,149 @@
 <?php
-// Function to display a flash message, given a session and message parameters
-function flash(&$session, $msg = "", $color = "info") {
-    // Creating a message array with text and color
-    $message = ["text" => $msg, "color" => $color];
 
-    // If flash session variable is not set, initialize it as an empty array
-    if (!isset($session['flash'])) {
-        $session['flash'] = [];
+
+
+//Login information 
+if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
+    $email = se($_POST, "username", "", false);
+    $password = se($_POST, "password", "", false);
+    $hasErrors = false;
+
+    if (empty($email)) {
+        flash("Username or email must be set", "warning");
+        $hasErrors = true;
+    } elseif (str_contains($email, "@")) {
+        $email = sanitize_email($email);
+        if (!is_valid_email($email)) {
+            flash("Invalid email address", "warning");
+            $hasErrors = true;
+        }
+    } elseif (!preg_match('/^[a-z0-9_-]{3,30}$/i', $email)) {
+        flash("Username must only be alphanumeric and can only contain - or _");
+        $hasErrors = true;
     }
-    // Add the new message to the flash session variable
-    array_push($session['flash'], $message);
+
+    if (empty($password)) {
+        flash("Password must be set");
+        $hasErrors = true;
+    } elseif (strlen($password) < 8) {
+        flash("Password must be at least 8 characters", "warning");
+        $hasErrors = true;
+    }
+
+    if (!$hasErrors) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT id, username, email, password from Users where email = :email or username = :email");
+        try {
+            $r = $stmt->execute([":email" => $email]);
+            if ($r && $user = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if (password_verify($password, $user["password"])) {
+                    unset($user["password"]);
+                    $_SESSION["user"] = $user;
+                    // Just in case there is a session admin
+                    //$stmt = $db->prepare("SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
+                    // $stmt->execute([":user_id" => $user["id"]]);
+                    // $_SESSION["user"]["roles"] = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+                    redirect("home.php");
+                } else {
+                    flash("Invalid password", "danger");
+                }
+            } else {
+                flash("Email not found", "danger");
+            }
+        } catch (Exception $e) {
+            flash(var_export($e, true));
+        }
+    }
 }
 
 
-// Function to sanitize email addresses by removing illegal characters
-function sanitize_email($email = "") {
-    return filter_var(trim($email), FILTER_SANITIZE_EMAIL);
+
+
+//REGISTER
+//TODO 2: add PHP Code
+if (isset($_POST["register"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
+    $email = se($_POST, "email", "", false);
+    $password = se($_POST, "password", "", false);
+    $confirm = se($_POST, "confirm", "", false);
+    $username = se($_POST, "username", "", false);
+
+    //TODO 3
+    $hasError = false;
+    if (empty($email)) {
+        flash("Email must not be empty", "danger");
+        $hasError = true;
+    }
+    //sanitize
+    $email = sanitize_email($email);
+    //validate
+    if (!is_valid_email($email)) {
+        flash("Invalid email address", "danger");
+        $hasError = true;
+    }
+    if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
+        flash("Username must only be alphanumeric and can only contain - or _", "danger");
+        $hasError = true;
+    }
+    if (empty($password)) {
+        flash("password must not be empty", "danger");
+        $hasError = true;
+    }
+    if (empty($confirm)) {
+        flash("Confirm password must not be empty", "danger");
+        $hasError = true;
+    }
+    if (strlen($password) < 8) {
+        flash("Password too short", "danger");
+        $hasError = true;
+    }
+    if (
+        strlen($password) > 0 && $password !== $confirm
+    ) {
+        flash("Passwords must match", "danger");
+        $hasError = true;
+    }
+    if (!$hasError) {
+        //TODO 4
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO Users (email, password, username) VALUES(:email, :password, :username)");
+        try {
+            $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
+            flash("Successfully registered!");
+        } catch (Exception $e) {
+            users_check_duplicate($e->$errorInfo);
+        }
+    }
 }
 
-// Function to validate email addresses
-function is_valid_email($email = "") {
-    return filter_var(trim($email), FILTER_VALIDATE_EMAIL);
-}
 
+// Starting a PHP session which allows you to store data to be easily accessed across pages
+
+/*
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    };
+    if (is_valid_email($username)){
+        sanitize_input($username);
+        validate_password($password);
+
+
+    }
+    is_valid_email();
+    sanitize_email();
+
+
+    login();
+
+
+$db = getDB();
+*/
+
+
+
+/*
 // Database connection parameters
 $DATABASE_HOST = '127.0.0.1';
 $DATABASE_USER = 'TestUser';
@@ -162,3 +283,8 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
     }
 }
 ?>
+
+*/
+
+?>
+
