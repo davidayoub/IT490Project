@@ -21,6 +21,9 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
 }
 session_start();
 require_once(__DIR__ . "/../lib/functions.php");
+require(__DIR__ . "/flash.php");
+
+
 ?>
 
 <!doctype html>
@@ -59,4 +62,50 @@ require_once(__DIR__ . "/../lib/functions.php");
     <meta name="twitter:title" content="Title Here">
     <meta name="twitter:description" content="Description Here">
     <meta name="twitter:image" content="URL to your image">
+
 </head>
+
+
+<nav class="my-navbar-color text-white shadow-md">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <a href="#" class="text-2xl font-bold">BrandName</a>
+            </div>
+            <div>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="hover:text-gray-300">Home</a></li>
+                    <li><a href="#" class="hover:text-gray-300">About</a></li>
+                    <li><a href="#" class="hover:text-gray-300">Services</a></li>
+                    <li><a href="#" class="hover:text-gray-300">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<style>
+:root {
+    --theme-color-primary: #8c0327;
+    --theme-color-secondary: #f6d860;
+}
+
+.my-navbar-color{
+    background-color: var(--theme-color-primary);
+
+}
+
+.my-footer-color {
+    background-color: var(--theme-color-primary);
+}
+
+
+.btn-custom {
+    background-color: #8c0327; /* Change this to your desired color */
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: #8c0327; /* Slightly darker shade for hover effect. Change this as needed. */
+}
+
+</style>
