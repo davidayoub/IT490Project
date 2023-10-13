@@ -283,6 +283,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
     }
 }
 ?>
+    <script type="text/javascript" src="../js/scripts.js"></script>
 
 */
 
