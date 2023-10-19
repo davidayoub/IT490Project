@@ -15,7 +15,7 @@ if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["passwor
     $password = ($_POST["password"]);
     $hasErrors = false;
     if (empty($email)) {
-        flash("Username or email must be set", "warning");
+        echo("Username or email must be set");
         $hasErrors = true;
     }
     //sanitize
@@ -25,30 +25,30 @@ if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["passwor
         //validate
         //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         if (!is_valid_email($email)) {
-            flash("Invalid email address", "warning");
+            echo("Invalid email address");
             $hasErrors = true;
         }
     } else {
         if (!preg_match('/^[a-z0-9_-]{3,30}$/i', $email)) {
-            flash("Username must only be alphanumeric and can only contain - or _");
+            echo("Username must only be alphanumeric and can only contain - or _");
             $hasErrors = true;
         }
     }
     if (empty($password)) {
-        flash("Password must be set");
+        echo("Password must be set");
         $hasErrors = true;
     }
     if (strlen($password) < 8) {
         //hello array _push($errors, "Password must be 8 or more characters");
-        flash("Password must be at least 8 characters", "warning");
+        echo("Password must be at least 8 characters");
         $hasErrors = true;
     }
     if ($hasErrors) {
-        //Nothing to output here, flash will do it
+        //Nothing to output here, echo will do it
         //can likely flip the if condition
         //echo "<pre>" . var_export($errors, true) . "</pre>";
     } else {
-        //TODO 4
+       
         $db = getDB();
         $stmt = $db->prepare("SELECT id, username, email, password FROM users WHERE email = :email OR username = :email");
         try {
@@ -61,25 +61,25 @@ if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["passwor
                     if (password_verify($password, $hash)) {
                         ///echo "Weclome $email";
                         $_SESSION["user"] = $user;
-                        //lookup potential roles
-                        // example header ("Location: " . get_url("home.php"));
-                        //exmple exit();
-                    
-                        redirect("home.php");
-                        //hello die (header("Location: home.php"));
+
+                        //header(("Location: home.php"));
+                        //exit();
+                        echo(get_url("home.php"));
+                        //redirect("home.php");
+                        
                         //header("Location: home.php");
                         //exit();
 
                     } else {
-                        flash("Invalid password", "danger");
+                        echo("Invalid password");
                     }
                 } else {
-                    flash("Email not found", "danger");
+                    echo("Email not found");
                 }
             }
         } catch (Exception $e) {
             // hello echo  "<pre>" . var_export($e, true) . "</pre>";
-            flash(var_export($e, true));
+            echo(var_export($e, true));
         }
     }
 }
@@ -97,36 +97,36 @@ if (isset($_POST["register"]) && isset($_POST["email"]) && isset($_POST["passwor
     //TODO 3
     $hasError = false;
     if (empty($email)) {
-        flash("Email must not be empty", "danger");
+        echo("Email must not be empty");
         $hasError = true;
     }
     //sanitize
     $email = sanitize_email($email);
     //validate
     if (!is_valid_email($email)) {
-        flash("Invalid email address", "danger");
+        echo("Invalid email address");
         $hasError = true;
     }
     if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
-        flash("Username must only be alphanumeric and can only contain - or _", "danger");
+        echo("Username must only be alphanumeric and can only contain - or _");
         $hasError = true;
     }
     if (empty($password)) {
-        flash("password must not be empty", "danger");
+        echo("password must not be empty");
         $hasError = true;
     }
     if (empty($confirm)) {
-        flash("Confirm password must not be empty", "danger");
+        echo("Confirm password must not be empty");
         $hasError = true;
     }
     if (strlen($password) < 8) {
-        flash("Password too short", "danger");
+        echo("Password too short");
         $hasError = true;
     }
     if (
         strlen($password) > 0 && $password !== $confirm
     ) {
-        flash("Passwords must match", "danger");
+        echo("Passwords must match");
         $hasError = true;
     }
     if (!$hasError) {
@@ -136,7 +136,10 @@ if (isset($_POST["register"]) && isset($_POST["email"]) && isset($_POST["passwor
         $stmt = $db->prepare("INSERT INTO users (email, password, username) VALUES(:email, :password, :username)");
         try {
             $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
-            flash("Successfully registered!");
+            //header(("Location: login_registration.php"));
+            echo("Succesfully generated new account.");
+            //echo("Successfully registered!");
+
             //echo '<script>window.location.reload();</script>';
           } catch (Exception $e) {
             echo($e);

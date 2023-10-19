@@ -21,7 +21,7 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
 }
 session_start();
 require_once(__DIR__ . "/../lib/functions.php");
-require(__DIR__ . "/flash.php");
+//require(__DIR__ . "/flash.php");
 
 
 ?>
@@ -78,6 +78,9 @@ require(__DIR__ . "/flash.php");
                     <li><a href="#" class="hover:text-gray-300">About</a></li>
                     <li><a href="#" class="hover:text-gray-300">Services</a></li>
                     <li><a href="#" class="hover:text-gray-300">Contact</a></li>
+                    <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                        <li><a href="logout.php" class="hover:text-gray-300">Logout</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
