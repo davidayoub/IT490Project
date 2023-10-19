@@ -194,6 +194,7 @@ function redirect($path)
     die();
 }
 
+<<<<<<< HEAD
 // Function to display a flash message, given a session and message parameters
 function flash(&$session, $msg = "", $color = "info") {
     // Creating a message array with text and color
@@ -206,6 +207,9 @@ function flash(&$session, $msg = "", $color = "info") {
     // Add the new message to the flash session variable
     array_push($session['flash'], $message);
 }
+=======
+
+>>>>>>> b4c6d47 (new front end and backend page)
 
 
 

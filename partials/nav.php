@@ -48,7 +48,7 @@ require(__DIR__ . "/flash.php");
     <!-- DaisyUI Autumn Theme CSS -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@1.10.2/themes/autumn.min.css" rel="stylesheet">
 
-    <script src="js/form_validation.js"></script>
+    <script src="/public_html/js/form_validation.js"></script>
 
     <!-- If you want your site to be displayed nicely when shared on social platforms -->
     <!-- Open Graph tags -->

@@ -1,8 +1,10 @@
 <?php
 //require(__DIR__ . "/../../../partials/nav.php");
 require(__DIR__ . "/../../partials/nav.php");
-require(__DIR__). "/../../partials/login_registration.php";
+require(__DIR__. "/../server_functions/login_registration.php");
 
+//$email = se($_POST, "email", "", false);
+//$username = se($_POST, "username", "", false);
 ?>
 
 <body class="bg-white">
@@ -34,7 +36,7 @@ require(__DIR__). "/../../partials/login_registration.php";
                             <input type="checkbox" name="remember" value="1">
                             Remember Me
                         </label>
-                        <button type="submit" class="btn btn-custom w-full">Sign In</button>
+                        <button type="submit" name="login" value="name" class="btn btn-custom w-full" data-loading-text="Loading...">Sign In</button>
                         <p class="text-center">Forgot password? <a href="login.html">Reset</a>.</p>
 
                     </div>
@@ -64,13 +66,12 @@ require(__DIR__). "/../../partials/login_registration.php";
                             <label for="confirm">Confirm</label>
                             <input type="password" class="input input-bordered w-full bg-beige" placeholder="Confirm Password" name="confirm" required minlength="8">
                         </div>
-                        <button type="submit" class="btn btn-custom w-full">Register</button>
+                        <button type="submit" name="register" value="Register" class="btn btn-custom w-full">Register</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="../js/scripts.js"></script>
 </body>
 </html>
 <?php
