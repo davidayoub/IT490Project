@@ -73,7 +73,7 @@ require(__DIR__. "/../server_functions/login_registration.php");
         </div>
     </div>
 </body>
-</html>
+
 <?php
 require(__DIR__ . "/../../partials/footer.php");
 ?>

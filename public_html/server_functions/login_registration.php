@@ -4,7 +4,7 @@
 
 
 //LOGIN
-if (isset($_POST["loginForm"]) && isset($_POST["username"]) && isset($_POST["password"])) {
+if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["password"])) {
     //get the email key from $_POST, default to "" if not set, and return the value
     //$email = se($_POST, "email", "", false);
     //same as above but for password
@@ -50,7 +50,7 @@ if (isset($_POST["loginForm"]) && isset($_POST["username"]) && isset($_POST["pas
     } else {
         //TODO 4
         $db = getDB();
-        $stmt = $db->prepare("SELECT id, name, email, password from Users where email = :email or name = :email");
+        $stmt = $db->prepare("SELECT id, username, email, password FROM users WHERE email = :email OR username = :email");
         try {
             $r = $stmt->execute([":email" => $email]);
             if ($r) {
@@ -67,6 +67,9 @@ if (isset($_POST["loginForm"]) && isset($_POST["username"]) && isset($_POST["pas
                     
                         redirect("home.php");
                         //hello die (header("Location: home.php"));
+                        //header("Location: home.php");
+                        //exit();
+
                     } else {
                         flash("Invalid password", "danger");
                     }

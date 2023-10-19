@@ -194,25 +194,17 @@ function redirect($path)
     die();
 }
 
-<<<<<<< HEAD
-// Function to display a flash message, given a session and message parameters
-function flash(&$session, $msg = "", $color = "info") {
-    // Creating a message array with text and color
-    $message = ["text" => $msg, "color" => $color];
 
-    // If flash session variable is not set, initialize it as an empty array
-    if (!isset($session['flash'])) {
-        $session['flash'] = [];
+function get_url($dest)
+{
+    global $BASE_PATH;
+    if (str_starts_with($dest, "/")) {
+        //handle absolute path
+        return $dest;
     }
-    // Add the new message to the flash session variable
-    array_push($session['flash'], $message);
+    //handle relative path
+    return $BASE_PATH . $dest;
 }
-=======
-
->>>>>>> b4c6d47 (new front end and backend page)
-
-
-
 
 
 ?>
