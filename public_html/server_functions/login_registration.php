@@ -64,8 +64,8 @@ if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["passwor
 
                         //header(("Location: home.php"));
                         //exit();
-                        echo(get_url("home.php"));
-                        //redirect("home.php");
+                        //echo(get_url("home.php"));
+                        redirect("home.php");
                         
                         //header("Location: home.php");
                         //exit();

@@ -74,13 +74,14 @@ require_once(__DIR__ . "/../lib/functions.php");
             </div>
             <div>
                 <ul class="flex space-x-4">
-                    <li><a href="#" class="hover:text-gray-300">Home</a></li>
-                    <li><a href="#" class="hover:text-gray-300">About</a></li>
-                    <li><a href="#" class="hover:text-gray-300">Services</a></li>
-                    <li><a href="#" class="hover:text-gray-300">Contact</a></li>
-                    <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                    <li><a href="home.php" class="hover:text-gray-300">Home</a></li>
+                    <li><a href="login_register.php" class="hover:text-gray-300">Register</a></li>
+                    <li><a href="services.php" class="hover:text-gray-300">Services</a></li>
+                    <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
+                    <?php if(isset($_SESSION['user'])):?>
                         <li><a href="logout.php" class="hover:text-gray-300">Logout</a></li>
                     <?php endif; ?>
+                    
                 </ul>
             </div>
         </div>
