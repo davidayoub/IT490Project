@@ -1,16 +1,8 @@
 <?php
-//require(__DIR__. "/../server_functions/login_registration.php");
-//require(__DIR__ . "/../../partials/nav.php");
-
 
 //LOGIN
 if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["password"])) {
-    //get the email key from $_POST, default to "" if not set, and return the value
-    //$email = se($_POST, "email", "", false);
-    //same as above but for password
-    //$password = se($_POST, "password", "", false);
-    //TODO 3: validate/use
-    //$errors = [];
+
     $email = ($_POST["username"]);
     $password = ($_POST["password"]);
     $hasErrors = false;
@@ -19,11 +11,9 @@ if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["passwor
         $hasErrors = true;
     }
     //sanitize
-    //$email = filter_var($email, FILTER_SANITIZE_EMAIL);
     if (str_contains($email, "@")) {
         $email = sanitize_email($email);
-        //validate
-        //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
         if (!is_valid_email($email)) {
             echo("Invalid email address");
             $hasErrors = true;
@@ -39,13 +29,11 @@ if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["passwor
         $hasErrors = true;
     }
     if (strlen($password) < 8) {
-        //hello array _push($errors, "Password must be 8 or more characters");
         echo("Password must be at least 8 characters");
         $hasErrors = true;
     }
     if ($hasErrors) {
         //Nothing to output here, echo will do it
-        //can likely flip the if condition
         //echo "<pre>" . var_export($errors, true) . "</pre>";
     } else {
        
@@ -61,7 +49,6 @@ if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["passwor
                     if (password_verify($password, $hash)) {
                         ///echo "Weclome $email";
                         $_SESSION["user"] = $user;
-
                         //header(("Location: home.php"));
                         //exit();
                         //echo(get_url("home.php"));
