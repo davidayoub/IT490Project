@@ -1,137 +1,148 @@
 <?php
+require_once(__DIR__.'/../rabbitmqphp_example/path.inc');
+require_once(__DIR__.'/../rabbitmqphp_example/get_host_info.inc');
+require_once(__DIR__.'/../rabbitmqphp_example/rabbitMQLib.inc');
+//require_once('rabbitMQLib.inc');
 
-//LOGIN
-if (isset($_POST["login"]) && isset($_POST["username"]) && isset($_POST["password"])) {
+function requestProcessor($request)
+{
+    echo "Received request".PHP_EOL;
+    var_dump($request);
 
-    $email = ($_POST["username"]);
-    $password = ($_POST["password"]);
-    $hasErrors = false;
-    if (empty($email)) {
-        echo("Username or email must be set");
-        $hasErrors = true;
+    if(!isset($request['type'])) {
+        return ["status" => "error", "message" => "Unsupported request type"];
     }
+
+    switch($request['type']) {
+        case "login":
+            return doLogin($request['username'], $request['password']);
+            break;
+        case "register":
+            return doRegister($request['email'], $request['username'], $request['password'], $request['confirm']);
+            break;
+        default:
+            return ["status" => "error", "message" => "Unsupported request type"];
+    }
+}
+
+
+function doLogin($email, $password){
+    
+    $response = ["status" => "error", "message" => ""];
+    
+    if (empty($email)) {
+        $response["message"] = "Username or email must be set";
+        return $response;
+    }
+    
     //sanitize
     if (str_contains($email, "@")) {
         $email = sanitize_email($email);
 
         if (!is_valid_email($email)) {
-            echo("Invalid email address");
-            $hasErrors = true;
+            $response["message"] = "Invalid email address";
+            return $response;
         }
     } else {
         if (!preg_match('/^[a-z0-9_-]{3,30}$/i', $email)) {
-            echo("Username must only be alphanumeric and can only contain - or _");
-            $hasErrors = true;
+            $response["message"] = "Username must only be alphanumeric and can only contain - or _";
+            return $response;
         }
     }
-    if (empty($password)) {
-        echo("Password must be set");
-        $hasErrors = true;
-    }
-    if (strlen($password) < 8) {
-        echo("Password must be at least 8 characters");
-        $hasErrors = true;
-    }
-    if ($hasErrors) {
-        //Nothing to output here, echo will do it
-        //echo "<pre>" . var_export($errors, true) . "</pre>";
-    } else {
-       
-        $db = getDB();
-        $stmt = $db->prepare("SELECT id, username, email, password FROM users WHERE email = :email OR username = :email");
-        try {
-            $r = $stmt->execute([":email" => $email]);
-            if ($r) {
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                if ($user) {
-                    $hash = $user["password"];
-                    unset($user["password"]);
-                    if (password_verify($password, $hash)) {
-                        ///echo "Weclome $email";
-                        $_SESSION["user"] = $user;
-                        //header(("Location: home.php"));
-                        //exit();
-                        //echo(get_url("home.php"));
-                        redirect("home.php");
-                        
-                        //header("Location: home.php");
-                        //exit();
 
-                    } else {
-                        echo("Invalid password");
-                    }
-                } else {
-                    echo("Email not found");
-                }
-            }
-        } catch (Exception $e) {
-            // hello echo  "<pre>" . var_export($e, true) . "</pre>";
-            echo(var_export($e, true));
-        }
+    if (empty($password) || strlen($password) < 8) {
+        $response["message"] = "Password must be set and at least 8 characters long";
+        return $response;
     }
+
+    $db = getDB();
+    $stmt = $db->prepare("SELECT id, username, email, password FROM users WHERE email = :email OR username = :email");
+    try {
+        $r = $stmt->execute([":email" => $email]);
+        if ($r) {
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                $hash = $user["password"];
+                if (password_verify($password, $hash)) {
+                    $response["status"] = "success";
+                    $response["user"] = $user;
+                } else {
+                    $response["message"] = "Invalid password";
+                }
+            } else {
+                $response["message"] = "Email not found";
+            }
+        }
+    } catch (Exception $e) {
+        $response["message"] = var_export($e, true);
+    }
+    
+    return $response;
 }
 
+function doRegister($email, $username, $password, $confirm)
+{
+    $response = ["status" => "error", "message" => ""];
 
-
-
-//REGISTER
-if (isset($_POST["register"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $confirm = $_POST["confirm"];
-    $username = $_POST["username"];
-
-    //TODO 3
     $hasError = false;
+
+    // Check for empty fields
     if (empty($email)) {
-        echo("Email must not be empty");
-        $hasError = true;
+        $response["message"] = "Email must not be empty";
+        return $response;
     }
-    //sanitize
-    $email = sanitize_email($email);
-    //validate
-    if (!is_valid_email($email)) {
-        echo("Invalid email address");
-        $hasError = true;
-    }
-    if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
-        echo("Username must only be alphanumeric and can only contain - or _");
-        $hasError = true;
+    if (empty($username)) {
+        $response["message"] = "Username must not be empty";
+        return $response;
     }
     if (empty($password)) {
-        echo("password must not be empty");
-        $hasError = true;
+        $response["message"] = "Password must not be empty";
+        return $response;
     }
     if (empty($confirm)) {
-        echo("Confirm password must not be empty");
-        $hasError = true;
+        $response["message"] = "Confirm password must not be empty";
+        return $response;
     }
-    if (strlen($password) < 8) {
-        echo("Password too short");
-        $hasError = true;
-    }
-    if (
-        strlen($password) > 0 && $password !== $confirm
-    ) {
-        echo("Passwords must match");
-        $hasError = true;
-    }
-    if (!$hasError) {
-        //TODO 4
-        $hash = password_hash($password, PASSWORD_BCRYPT);
-        $db = getDB();
-        $stmt = $db->prepare("INSERT INTO users (email, password, username) VALUES(:email, :password, :username)");
-        try {
-            $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
-            //header(("Location: login_registration.php"));
-            echo("Succesfully generated new account.");
-            //echo("Successfully registered!");
 
-            //echo '<script>window.location.reload();</script>';
-          } catch (Exception $e) {
-            echo($e);
-        }
+    // Sanitize email
+    $email = sanitize_email($email);
+
+    // Validate email and username
+    if (!is_valid_email($email)) {
+        $response["message"] = "Invalid email address";
+        return $response;
     }
+    if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
+        $response["message"] = "Username must only be alphanumeric and can only contain - or _";
+        return $response;
+    }
+
+    // Check password length
+    if (strlen($password) < 8) {
+        $response["message"] = "Password too short";
+        return $response;
+    }
+
+    // Check password confirmation
+    if ($password !== $confirm) {
+        $response["message"] = "Passwords must match";
+        return $response;
+    }
+
+    // If no errors, proceed with database insertion
+    $hash = password_hash($password, PASSWORD_BCRYPT);
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO users (email, password, username) VALUES(:email, :password, :username)");
+
+    try {
+        $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
+        $response["status"] = "success";
+        $response["message"] = "Successfully generated new account.";
+    } catch (Exception $e) {
+        $response["message"] = $e->getMessage();
+    }
+
+    return $response;
 }
 
 
