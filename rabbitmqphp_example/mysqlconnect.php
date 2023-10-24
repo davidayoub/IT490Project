@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 
 $mydb = new mysqli('127.0.0.1','TestUser','12345','testdb');
@@ -11,7 +11,7 @@ if ($mydb->errno != 0)
 
 echo "successfully connected to database".PHP_EOL;
 
-$query = "select * from students;";
+$query = "select * from users;";
 
 $response = $mydb->query($query);
 if ($mydb->errno != 0)
