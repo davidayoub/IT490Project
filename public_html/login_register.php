@@ -6,7 +6,6 @@ require(__DIR__ . "/server_functions/login_registration.php");
 //$email = se($_POST, "email", "", false);
 //$username = se($_POST, "username", "", false);
 
-
 ?>
 
 <body class="bg-white">
