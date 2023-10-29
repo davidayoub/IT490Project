@@ -38,10 +38,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hasErrors = true;
         }
 
-
-        $db = getDB();
-        $stmt = $db->prepare("SELECT id, username, email, password from users where email = :email or username = :email");
         try {
+            // RabbitMQ Below
+            $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+            $response = $client->publish($request);
+            var_dump($response);
+
+            redirect("home.php");
+        } catch (Exception $e) {
+            echo(var_export($e, true));
+        }
+
+        //$db = getDB();
+        //$stmt = $db->prepare("SELECT id, username, email, password from users where email = :email or username = :email");
+        /*try {
             $r = $stmt->execute([":email" => $email]);
             if ($r && $user = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if (password_verify($password, $user["password"])) {
@@ -51,10 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     //$stmt = $db->prepare("SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
                     // $stmt->execute([":user_id" => $user["id"]]);
                     // $_SESSION["user"]["roles"] = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+                    // RabbitMQ Below
                     $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
                     $response = $client->send_request($request);
+                    var_dump($response);
 
-                     var_dump($response);
                     redirect("home.php");
 
                 } else {
@@ -65,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } catch (Exception $e) {
             echo(var_export($e, true));
-        }
+        }*/
 
 
         
