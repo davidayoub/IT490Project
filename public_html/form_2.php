@@ -199,7 +199,8 @@ require(__DIR__."/../partials/nav.php");
                             //$response = $client->send_request($request);
                            // var_dump($response);
 
-                            $dataJson = json_encode($request);
+
+                           $dataJson = json_encode($request);
     
                             // Prepare the message
                             $message = new AMQPMessage($request);
@@ -282,13 +283,12 @@ require(__DIR__."/../partials/nav.php");
                 } catch (Exception $e) {
                    // users_check_duplicate($e->$errorInfo);
                 }
-                
         
         
-                //$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-               // $response = $client->send_request($request);
+                $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+               $response = $client->send_request($request);
         
-               // var_dump($response);
+                var_dump($response);
             }
         }
 

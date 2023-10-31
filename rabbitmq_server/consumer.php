@@ -42,17 +42,15 @@ $callback = function ($message) use ($mysqlHost, $mysqlUser, $mysqlPass, $mysqlD
         }
 
         $username = $mysqli->real_escape_string($data['username']);
-        $name = $mysqli->real_escape_string($data['name']);
         $email = $mysqli->real_escape_string($data['email']);
         $password = $mysqli->real_escape_string($data['password']);
 
-        $query = "INSERT INTO students (username, name, email, password) VALUES ('$username', '$name', '$email', '$password')";
+        $query = "INSERT INTO users (email, password, username) VALUES ('$email', '$password', '$username')";
 
         if ($mysqli->query($query) === true) {
             echo " \n" ;
             echo " [x] Data inserted into MySQL table\n";
             echo " [x] Received Username: ", $data['username'], "\n";
-            echo " [x] Received Name: ", $data['name'], "\n";
             echo " [x] Received Email: ", $data['email'], "\n";
             echo " [x] Received Password: ", $data['password'], "\n";
             echo " \n" ;
