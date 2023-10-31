@@ -41,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             // RabbitMQ Below
             $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-            $response = $client->publish($request);
+            // $response = $client->publish($request);
+            $response = $client->send_request($request);
             var_dump($response);
 
             $_SESSION["user"]["roles"] = $response ?: [];

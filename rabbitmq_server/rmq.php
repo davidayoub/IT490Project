@@ -15,8 +15,8 @@ function doLogin($username,$password)
 {
     // lookup username in databas
     // check password
-    $loginUsername = $data['username'];
-    $loginPassword = $data['password'];
+    $loginUsername = $username;
+    $loginPassword = $password;
 
     // MySQL database configuration
     $mysqlHost = 'localhost';
@@ -26,6 +26,7 @@ function doLogin($username,$password)
     $mysqlPort = 3306;
     // Check login credentials against the database (modify this part as per your authentication logic)
     $mysqli = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDb);
+    // echo $mysqli;
 
     if ($mysqli->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
