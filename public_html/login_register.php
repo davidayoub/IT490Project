@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $response = $client->publish($request);
             var_dump($response);
 
+            $_SESSION["user"]["roles"] = $response ?: [];
             redirect("home.php");
         } catch (Exception $e) {
             echo(var_export($e, true));
