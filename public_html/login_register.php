@@ -1,6 +1,31 @@
 <?php
 require(__DIR__."/../partials/nav.php");
 require_once(__DIR__.'/rabbitmqphp_example/rabbitMQLib.inc');
+require_once __DIR__ . '/vendor/autoload.php';
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+
+$rabbitmqHost = 'localhost';
+    $rabbitmqPort = 5672;
+    $rabbitmqUser = 'test';
+    $rabbitmqPass = 'test';
+    $rabbitmqVhost = 'it490';
+    
+    // Create a connection to RabbitMQ
+    $connection = new AMQPStreamConnection($rabbitmqHost, $rabbitmqPort, $rabbitmqUser, $rabbitmqPass, $rabbitmqVhost);
+    
+    // Create a channel
+    $channel = $connection->channel();
+    
+    // Declare a queue to send the data
+    $queueName = 'testQueue';
+    $channel->queue_declare($queueName, false, true, false, false);
+
+
+
+
+
 
 
 
@@ -51,9 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo(var_export($e, true));
         }
 
-        //$db = getDB();
-        //$stmt = $db->prepare("SELECT id, username, email, password from users where email = :email or username = :email");
-        /*try {
+        //Starting from here everything was commented out
+        $db = getDB();
+        $stmt = $db->prepare("SELECT id, username, email, password from users where email = :email or username = :email");
+        try {
             $r = $stmt->execute([":email" => $email]);
             if ($r && $user = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if (password_verify($password, $user["password"])) {
@@ -69,6 +95,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $response = $client->send_request($request);
                     var_dump($response);
 
+                            //$dataJson = json_encode($request);
+    
+                            // Prepare the message
+                           //$message = new AMQPMessage($request);
+                        
+                            //Publish the message to the combined data queue
+                            //$channel->basic_publish($request);
+
+
                     redirect("home.php");
 
                 } else {
@@ -79,7 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } catch (Exception $e) {
             echo(var_export($e, true));
-        }*/
+        }
+        //From here and up, everything was commented out
 
 
         
@@ -109,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hasError = true;
         }
         if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
-            flash("Username must only be alphanumeric and can only contain - or _", "danger");
+            echo("Username must only be alphanumeric and can only contain - or _");
             $hasError = true;
         }
         if (empty($password)) {
@@ -149,6 +185,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $response = $client->send_request($request);
 
         var_dump($response);
+
+        //Incase client ^ does not work
+        //$dataJson = json_encode($request);
+    
+        // Prepare the message
+      // $message = new AMQPMessage($request);
+    
+        //Publish the message to the combined data queue
+       // $channel->basic_publish($request);
+
+
+
+
+
+
     }
 }
 
