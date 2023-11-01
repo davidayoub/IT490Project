@@ -195,18 +195,18 @@ require(__DIR__."/../partials/nav.php");
                             // $_SESSION["user"]["roles"] = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
         
                             // RabbitMQ Below
-                            //$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-                            //$response = $client->send_request($request);
-                           // var_dump($response);
+                            $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+                            $response = $client->send_request($request);
+                            var_dump($response);
 
 
-                           $dataJson = json_encode($request);
+                          //$dataJson = json_encode($request);
     
                             // Prepare the message
-                            $message = new AMQPMessage($request);
+                           // $message = new AMQPMessage($request);
                         
                             // Publish the message to the combined data queue
-                            $channel->basic_publish($request);
+                            //$channel->basic_publish($request);
 
 
         
@@ -225,7 +225,7 @@ require(__DIR__."/../partials/nav.php");
         
                 
                 //$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-               // $response = $client->send_request($request);
+                //$response = $client->send_request($request);
         
                 //var_dump($response);
                 
