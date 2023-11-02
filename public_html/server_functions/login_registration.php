@@ -2,27 +2,40 @@
 require_once(__DIR__.'/../rabbitmqphp_example/path.inc');
 require_once(__DIR__.'/../rabbitmqphp_example/get_host_info.inc');
 require_once(__DIR__.'/../rabbitmqphp_example/rabbitMQLib.inc');
-//require_once('rabbitMQLib.inc');
+require(__DIR__.'/../../lib/functions.php');
 
 function requestProcessor($request)
 {
     echo "Received request".PHP_EOL;
     var_dump($request);
 
-    if(!isset($request['type'])) {
+    if (!isset($request['type'])) {
         return ["status" => "error", "message" => "Unsupported request type"];
     }
 
-    switch($request['type']) {
+    $response = null;
+    switch ($request['type']) {
         case "login":
-            return doLogin($request['username'], $request['password']);
+            $response = doLogin($request['username'], $request['password']);
             break;
         case "register":
-            return doRegister($request['email'], $request['username'], $request['password'], $request['confirm']);
+            $response = doRegister($request['email'], $request['username'], $request['password'], $request['confirm']);
             break;
         default:
-            return ["status" => "error", "message" => "Unsupported request type"];
+            $response = ["status" => "error", "message" => "Unsupported request type"];
+            break;
     }
+
+    // Check the response and redirect if successful
+    if ($response && $response["status"] === "success") {
+        redirect("home.php");
+    } else {
+        // Handle the error or unsuccessful operation
+        echo "Error: " . $response["message"];
+    }
+
+    // Return the response for further processing if needed
+    return $response;
 }
 
 
@@ -55,7 +68,7 @@ function doLogin($email, $password){
         return $response;
     }
 
-    $db = getDB();
+     $db = getDB();
     $stmt = $db->prepare("SELECT id, username, email, password FROM users WHERE email = :email OR username = :email");
     try {
         $r = $stmt->execute([":email" => $email]);
@@ -64,17 +77,24 @@ function doLogin($email, $password){
             if ($user) {
                 $hash = $user["password"];
                 if (password_verify($password, $hash)) {
-                    $response["status"] = "success";
-                    $response["user"] = $user;
+                    $_SESSION["user"] = [
+                        "id" => $user["id"],
+                        "username" => $user["username"],
+                        "email" => $user["email"]
+                    ]; // Store user info in the session
+                    redirect("home.php"); // Redirect to home page
                 } else {
                     $response["message"] = "Invalid password";
+                    return $response;
                 }
             } else {
                 $response["message"] = "Email not found";
+                return $response;
             }
         }
     } catch (Exception $e) {
         $response["message"] = var_export($e, true);
+        return $response;
     }
     
     return $response;
@@ -142,9 +162,15 @@ function doRegister($email, $username, $password, $confirm)
         $response["message"] = $e->getMessage();
     }
 
-    return $response;
+    //return $response;
 }
 
+
+
+$server = new rabbitMQServer("testRabbitMQ.ini", "testServer");
+
+// Set up the callback function to process requests
+$server->process_requests('requestProcessor');
 
 ?>
 
