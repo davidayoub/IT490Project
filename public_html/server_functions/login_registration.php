@@ -68,7 +68,7 @@ function doLogin($email, $password){
         return $response;
     }
 
-     $db = getDB();
+    $db = getDB();
     $stmt = $db->prepare("SELECT id, username, email, password FROM users WHERE email = :email OR username = :email");
     try {
         $r = $stmt->execute([":email" => $email]);
@@ -77,11 +77,7 @@ function doLogin($email, $password){
             if ($user) {
                 $hash = $user["password"];
                 if (password_verify($password, $hash)) {
-                    $_SESSION["user"] = [
-                        "id" => $user["id"],
-                        "username" => $user["username"],
-                        "email" => $user["email"]
-                    ]; // Store user info in the session
+                    $_SESSION["user"] = $user; // Store user info in the session
                     redirect("home.php"); // Redirect to home page
                 } else {
                     $response["message"] = "Invalid password";
@@ -162,7 +158,7 @@ function doRegister($email, $username, $password, $confirm)
         $response["message"] = $e->getMessage();
     }
 
-    //return $response;
+    return $response;
 }
 
 
