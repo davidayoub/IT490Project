@@ -19,7 +19,7 @@ IT490Project
             styles.css
         js
             form_validation.js
-        rabbitmqphp
+        rabbitmqphp_example
             rpc
                 local.ini
                 loginRequest.php
@@ -47,4 +47,8 @@ IT490Project
         home.php
         login_register.php
         logout.php
-        aaaaaaaa
+
+
+
+#Zero tier
+sudo zerotier-cli join 56374ac9a4c54f35
