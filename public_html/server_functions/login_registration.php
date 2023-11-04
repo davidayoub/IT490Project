@@ -30,7 +30,6 @@ function requestProcessor($request)
     if ($response && $response["status"] === "success") {
         redirect("home.php");
     } else {
-        // Handle the error or unsuccessful operation
         echo "Error: " . $response["message"];
     }
 
