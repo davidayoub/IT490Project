@@ -30,6 +30,10 @@ function requestProcessor($request)
     if ($response && $response["status"] === "success") {
         redirect("home.php");
     } else {
+<<<<<<< HEAD:public_html/server_functions/login_registration.php
+=======
+        // Handle the error or unsuccessful operation
+>>>>>>> 0d36871 (change the server rabbit and client):public_html/server_functions/auth_server.php
         echo "Error: " . $response["message"];
     }
 
@@ -67,7 +71,7 @@ function doLogin($email, $password){
         return $response;
     }
 
-    $db = getDB();
+     $db = getDB();
     $stmt = $db->prepare("SELECT id, username, email, password FROM users WHERE email = :email OR username = :email");
     try {
         $r = $stmt->execute([":email" => $email]);
@@ -76,8 +80,17 @@ function doLogin($email, $password){
             if ($user) {
                 $hash = $user["password"];
                 if (password_verify($password, $hash)) {
+<<<<<<< HEAD:public_html/server_functions/login_registration.php
                     $_SESSION["user"] = $user; // Store user info in the session
                     redirect("home.php"); // Redirect to home page
+=======
+                    $_SESSION["user"] = [
+                        "id" => $user["id"],
+                        "username" => $user["username"],
+                        "email" => $user["email"]
+                    ]; // Store user info in the session
+                    
+>>>>>>> 0d36871 (change the server rabbit and client):public_html/server_functions/auth_server.php
                 } else {
                     $response["message"] = "Invalid password";
                     return $response;
@@ -157,13 +170,17 @@ function doRegister($email, $username, $password, $confirm)
         $response["message"] = $e->getMessage();
     }
 
-    return $response;
+    //return $response;
 }
 
 
 
+<<<<<<< HEAD:public_html/server_functions/login_registration.php
 $server = new rabbitMQServer("testRabbitMQ.ini", "testServer");
 
+=======
+$server = new rabbitMQServer("host.ini", "rabbitMQ");
+>>>>>>> 0d36871 (change the server rabbit and client):public_html/server_functions/auth_server.php
 // Set up the callback function to process requests
 $server->process_requests('requestProcessor');
 

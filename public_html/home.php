@@ -1,6 +1,6 @@
 <?php
 require(__DIR__."/../partials/nav.php");
-require(__DIR__ . "/server_functions/login_registration.php");
+//require(__DIR__."/server_functions/auth_server.php")
 ?>
 
 <body class="bg-white">

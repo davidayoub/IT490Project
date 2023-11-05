@@ -38,92 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $request['type'] = "login";
         $request['username'] = $username;
         $request['password'] = $password;
-
-        $email = se($_POST, "username", "", false);
-        $password = se($_POST, "password", "", false);
-        $hasErrors = false;
-        if (empty($email)) {
-            echo("Username or email must be set");
-            $hasErrors = true;
-        } elseif (str_contains($email, "@")) {
-            $email = sanitize_email($email);
-            if (!is_valid_email($email)) {
-                echo("Invalid email address");
-                $hasErrors = true;
-            }
-        } elseif (!preg_match('/^[a-z0-9_-]{3,30}$/i', $email)) {
-            echo("Username must only be alphanumeric and can only contain - or _");
-            $hasErrors = true;
-        }
-        if (empty($password)) {
-            echo("Password must be set");
-            $hasErrors = true;
-        } elseif (strlen($password) < 8) {
-            echo("Password must be at least 8 characters");
-            $hasErrors = true;
-        }
-
-        try {
-            // RabbitMQ Below
-            $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-            // $response = $client->publish($request);
-            $response = $client->send_request($request);
-            var_dump($response);
-
-            $_SESSION["user"]["roles"] = $response ?: [];
-            redirect("home.php");
-        } catch (Exception $e) {
-            echo(var_export($e, true));
-        }
-
-        //Starting from here everything was commented out
-        $db = getDB();
-        $stmt = $db->prepare("SELECT * from users where email = :email or username = :email");
-        try {
-            $r = $stmt->execute([":email" => $email]);
-            if ($r && $user = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                if (password_verify($password, $user["password"])) {
-                    unset($user["password"]);
-                    $_SESSION["user"] = $user;
-                    // Just in case there is a session admin
-                    //$stmt = $db->prepare("SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
-                    // $stmt->execute([":user_id" => $user["id"]]);
-                    // $_SESSION["user"]["roles"] = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-
-                    // RabbitMQ Below
-                    $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-                    $response = $client->send_request($request);
-                    var_dump($response);
-
-                            //$dataJson = json_encode($request);
-    
-                            // Prepare the message
-                           //$message = new AMQPMessage($request);
-                        
-                            //Publish the message to the combined data queue
-                            //$channel->basic_publish($request);
-
-
-                    redirect("home.php");
-
-                } else {
-                    echo("Invalid password");
-                }
-            } else {
-                echo("Email not found");
-            }
-        } catch (Exception $e) {
-            echo(var_export($e, true));
-        }
-        //From here and up, everything was commented out
-
-
         
-        //$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-       // $response = $client->send_request($request);
+        $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+        $response = $client->send_request($request);
 
-        //var_dump($response);
-        
+        var_dump($response);
     }
 
     // Similarly, you can handle registration here
