@@ -43,12 +43,9 @@ IT490Project
             testRabbitMQServer.monit
             testRabbitMQServer.php
         server_functions
-            login_registration.php
+            auth_server.php
+            worker.php
         home.php
         login_register.php
         logout.php
-
-
-
-#Zero tier
-sudo zerotier-cli join 56374ac9a4c54f35
+        aaaaaaaa
