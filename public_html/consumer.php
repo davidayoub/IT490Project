@@ -31,7 +31,7 @@ echo " [*] Waiting for messages. To exit, press Ctrl+C\n";
 $callback = function ($message) use ($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDb) {
     $data = json_decode($message->body, true);
 
-    if ($data['type'] === 'registration') {
+    if ($data['type'] === 'register') {
         // Insert the registration data into the MySQL table
         $mysqli = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDb);
 
@@ -59,8 +59,8 @@ $callback = function ($message) use ($mysqlHost, $mysqlUser, $mysqlPass, $mysqlD
         $mysqli->close();
     } elseif ($data['type'] === 'login') {
         // Handle login data
-        $loginUsername = $data['login_username'];
-        $loginPassword = $data['login_password'];
+        $loginUsername = $data['username'];
+        $loginPassword = $data['password'];
 
         // Check login credentials against the database (modify this part as per your authentication logic)
         $mysqli = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDb);

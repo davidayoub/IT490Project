@@ -56,7 +56,7 @@ $callback = function ($message) use ($mysqlHost, $mysqlUser, $mysqlPass, $mysqlD
            echo " [x] Received Email: ", $data['email'], "\n";
            echo " [x] Received Username: ", $data['username'], "\n";
            echo " [x] Received Password: ", $data['password'], "\n";
-        echo " \n" ;
+           echo " \n" ;
        } catch (Exception $e) {
           // users_check_duplicate($e->$errorInfo);
        }
@@ -87,7 +87,7 @@ $callback = function ($message) use ($mysqlHost, $mysqlUser, $mysqlPass, $mysqlD
         $username = $mysqli->real_escape_string($usernames);
         $password = $mysqli->real_escape_string($passwords);
 
-        $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+        $query = "SELECT id, username, password FROM users WHERE username = '$username' AND password = '$password'";
         $result = $mysqli->query($query);
 
         if ($result->num_rows > 0) {
