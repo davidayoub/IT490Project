@@ -87,7 +87,6 @@ function se($v, $k = null, $default = "", $isEcho = true)
 
 ?>
 <body class="bg-white">
-    <!-- Main Section -->
     <div class="p-4"> <!-- Add padding to this container -->
         <div class="text-center space-y-4">
             <h1>Welcome!</h1>
