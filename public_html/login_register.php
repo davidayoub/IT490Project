@@ -39,9 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $request['username'] = $username;
         $request['password'] = $password;
         
-        $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
-        $response = $client->send_request($request);
-
+        $client = new rabbitMQClient("path/to/host.ini", "rabbitMQ");        $response = $client->send_request($request);
         var_dump($response);
     }
 
