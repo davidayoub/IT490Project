@@ -1,8 +1,9 @@
 <?php
 require(__DIR__."/../partials/nav.php");
 require_once(__DIR__.'/rabbitmqphp_example/rabbitMQLib.inc');
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $client = new rabbitMQClient(__DIR__ . "/rabbitmqphp_example/host.ini", "testServer");
+
     if (isset($_POST["login"])) {
         $username = $_POST["username"];
         $password = $_POST["password"];
@@ -11,13 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $request['type'] = "login";
         $request['username'] = $username;
         $request['password'] = $password;
-        
-        $client = new rabbitMQClient("./rabbitmqphp_example/host.ini", "rabbitMQ");        
+
         $response = $client->send_request($request);
-        var_dump($response);
+
+        if ($response && $response["status"] === "success") {
+            $_SESSION["user"] = $response["user"];
+            redirect("home.php");
+        } else {
+            echo "Login failed: " . $response["message"];
+        }
     }
 
-    // Similarly, you can handle registration here
     if (isset($_POST["register"])) {
         $email = $_POST["email"];
         $username = $_POST["username"];
@@ -30,11 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $request['username'] = $username;
         $request['password'] = $password;
         $request['confirm'] = $confirm;
-        
-        $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+
         $response = $client->send_request($request);
 
-        var_dump($response);
+        if ($response && $response["status"] === "success") {
+            redirect("home.php");
+        } else {
+            echo "Registration failed: " . $response["message"];
+        }
     }
 }
 ?>
