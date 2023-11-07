@@ -1,35 +1,10 @@
 <?php
 require(__DIR__."/../partials/nav.php");
 require_once(__DIR__.'/rabbitmqphp_example/rabbitMQLib.inc');
-require_once __DIR__ . '/vendor/autoload.php';
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
-
-
-    $rabbitmqHost = 'localhost';
-    $rabbitmqPort = 5672;
-    $rabbitmqUser = 'test';
-    $rabbitmqPass = 'test';
-    $rabbitmqVhost = 'it490';
-    
-    // Create a connection to RabbitMQ
-    $connection = new AMQPStreamConnection($rabbitmqHost, $rabbitmqPort, $rabbitmqUser, $rabbitmqPass, $rabbitmqVhost);
-    
-    // Create a channel
-    $channel = $connection->channel();
-    
-    // Declare a queue to send the data
-    $queueName = 'testQueue';
-    $channel->queue_declare($queueName, false, true, false, false);
-
-
-
-
-
-
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $client = new rabbitMQClient(__DIR__ . "/rabbitmqphp_example/host.ini", "testServer");
+
     if (isset($_POST["login"])) {
         $username = $_POST["username"];
         $password = $_POST["password"];
@@ -39,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $request['username'] = $username;
         $request['password'] = $password;
         
-        $client = new rabbitMQClient("path/to/host.ini", "rabbitMQ");        $response = $client->send_request($request);
+        $client = new rabbitMQClient("./rabbitmqphp_example/host.ini", "rabbitMQ");        
+        $response = $client->send_request($request);
         var_dump($response);
     }
 
@@ -56,67 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $request['username'] = $username;
         $request['password'] = $password;
         $request['confirm'] = $confirm;
-
-        if (!is_valid_email($email)) {
-            flash("Invalid email address", "danger");
-            $hasError = true;
-        }
-        if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
-            echo("Username must only be alphanumeric and can only contain - or _");
-            $hasError = true;
-        }
-        if (empty($password)) {
-            flash("password must not be empty", "danger");
-            $hasError = true;
-        }
-        if (empty($confirm)) {
-            flash("Confirm password must not be empty", "danger");
-            $hasError = true;
-        }
-        if (strlen($password) < 8) {
-            flash("Password too short", "danger");
-            $hasError = true;
-        }
-        if (
-            strlen($password) > 0 && $password !== $confirm
-        ) {
-            flash("Passwords must match", "danger");
-            $hasError = true;
-        }
-
-
-//I just commented below
-        $hash = password_hash($password, PASSWORD_BCRYPT);
-        $db = getDB();
-        $stmt = $db->prepare("INSERT INTO users (email, password, username) VALUES(:email, :password, :username)");
-        try {
-            $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
-            echo("Successfully registered!");
-    } catch (Exception $e) {
-           // users_check_duplicate($e->$errorInfo);
-        }
         
-
-
         $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
         $response = $client->send_request($request);
 
-        var_dump($response);
-
-        //Incase client ^ does not work
-        //$dataJson = json_encode($request);
-    
-        // Prepare the message
-      // $message = new AMQPMessage($request);
-    
-        //Publish the message to the combined data queue
-       // $channel->basic_publish($request);
-
-
-
-
-
-
+        if ($response && $response["status"] === "success") {
+            redirect("home.php");
+        } else {
+            echo "Registration failed: " . $response["message"];
+        }
     }
 }
 

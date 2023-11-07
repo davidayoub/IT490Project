@@ -48,4 +48,8 @@ IT490Project
         home.php
         login_register.php
         logout.php
-        aaaaaaaa
+
+
+
+#restart apache2
+sudo systemctl restart apache2
