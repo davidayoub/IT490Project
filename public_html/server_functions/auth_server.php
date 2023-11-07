@@ -2,8 +2,7 @@
 require_once(__DIR__.'/../rabbitmqphp_example/path.inc');
 require_once(__DIR__.'/../rabbitmqphp_example/get_host_info.inc');
 require_once(__DIR__.'/../rabbitmqphp_example/rabbitMQLib.inc');
-require_once(__DIR__.'/../../lib/functions.php');
-
+require(__DIR__.'/../../lib/functions.php');
 
 function requestProcessor($request)
 {
@@ -18,7 +17,6 @@ function requestProcessor($request)
     switch ($request['type']) {
         case "login":
             $response = doLogin($request['username'], $request['password']);
-            $response = doLogin($request['username'], $request['password']);
             break;
         case "register":
             $response = doRegister($request['email'], $request['username'], $request['password'], $request['confirm']);
@@ -32,6 +30,7 @@ function requestProcessor($request)
     if ($response && $response["status"] === "success") {
         redirect("home.php");
     } else {
+        // Handle the error or unsuccessful operation
         echo "Error: " . $response["message"];
     }
 
@@ -78,8 +77,12 @@ function doLogin($email, $password){
             if ($user) {
                 $hash = $user["password"];
                 if (password_verify($password, $hash)) {
-                    $response["status"] = "success";
-                    $response["user"] = $user;
+                    $_SESSION["user"] = [
+                        "id" => $user["id"],
+                        "username" => $user["username"],
+                        "email" => $user["email"]
+                    ]; // Store user info in the session
+                    
                 } else {
                     $response["message"] = "Invalid password";
                     return $response;
@@ -162,6 +165,12 @@ function doRegister($email, $username, $password, $confirm)
     //return $response;
 }
 
+
+
+$server = new rabbitMQServer("testRabbitMQ.ini", "testServer");
+
+// Set up the callback function to process requests
+$server->process_requests('requestProcessor');
 
 ?>
 
