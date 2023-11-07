@@ -39,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $response = $client->send_request($request);
 
         if ($response && $response["status"] === "success") {
-            redirect("home.php");
+            //redirect("home.php");
+            echo("Succesfullly registered!")
         } else {
             echo "Registration failed: " . $response["message"];
         }
