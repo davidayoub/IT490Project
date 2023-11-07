@@ -18,6 +18,7 @@ function requestProcessor($request)
     switch ($request['type']) {
         case "login":
             $response = doLogin($request['username'], $request['password']);
+            $response = doLogin($request['username'], $request['password']);
             break;
         case "register":
             $response = doRegister($request['email'], $request['username'], $request['password'], $request['confirm']);
@@ -77,8 +78,8 @@ function doLogin($email, $password){
             if ($user) {
                 $hash = $user["password"];
                 if (password_verify($password, $hash)) {
-                    $_SESSION["user"] = $user; // Store user info in the session
-                    redirect("home.php"); // Redirect to home page
+                    $response["status"] = "success";
+                    $response["user"] = $user;
                 } else {
                     $response["message"] = "Invalid password";
                     return $response;
@@ -161,11 +162,6 @@ function doRegister($email, $username, $password, $confirm)
     //return $response;
 }
 
-
-
-$server = new rabbitMQServer(__DIR__ . "/../../rabbitmqphp_example/host.ini", "testServer");
-// Set up the callback function to process requests
-$server->process_requests('requestProcessor');
 
 ?>
 
