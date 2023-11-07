@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($response && $response["status"] === "success") {
             //redirect("home.php");
-            echo("Succesfullly registered!" . $response["message"]);
+            echo("Hey buddy! " . $response["message"]);
         } else {
             echo "Registration failed: " . $response["message"];
         }
