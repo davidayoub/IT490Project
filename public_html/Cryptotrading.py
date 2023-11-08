@@ -2,7 +2,7 @@ import random
 
 class CryptoExchange:
     def __init__(self):
-        self.balances = {'USD': 10000, 'BTC': 0, 'ETH': 0}
+        self.balances = {'USD': 100000, 'BTC': 0, 'ETH': 0}
 
     def check_balance(self, currency):
         return self.balances[currency]
@@ -32,7 +32,7 @@ class CryptoExchange:
 
 def main():
     exchange = CryptoExchange()
-    print("Welcome to the Crypto Exchange Simulator!")
+    print("Welcome to the Coin Market Exchange Simulator!")
 
     while True:
         print("\nMenu:")
@@ -70,7 +70,7 @@ def main():
 
         elif choice == '4':
             exchange.display_balance()
-            print("Thank you for using the Crypto Exchange Simulator! Goodbye.")
+            print("Thank you for using Coin Market Exchange Simulator! Goodbye.")
             break
 
 if __name__ == "__main__":
