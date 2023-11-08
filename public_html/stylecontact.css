@@ -1,0 +1,86 @@
+
+/* Custom CSS for Contact Us page */
+.contact-heading {
+    text-align: center;
+    color: #333;
+}
+
+.section-heading {
+    color: #0d0000;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.address-info {
+    font-size: 18px;
+    color: #555;
+}
+
+.map {
+    height: 300px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+/* Apply a background color to the navbar */
+.navbar {
+    background-color: #333;
+}
+
+/* Style the links in the navbar */
+.navbar a {
+    color: #fff; /* Text color */
+    text-decoration: none; /* Remove underlines */
+    padding: 10px 20px; /* Add some spacing around links */
+}
+
+/* Change link color on hover */
+.navbar a:hover {
+    background-color: #555; /* Background color on hover */
+    color: #fff; /* Text color on hover */
+}
+
+/* Style the navbar logo or brand */
+.navbar-brand {
+    color: #fff; /* Text color for the brand/logo */
+    font-weight: bold; /* Make the brand text bold */
+}
+
+/* Add a dropdown menu to the navbar */
+.navbar .dropdown-content {
+    display: none; /* Initially hide the dropdown content */
+    position: absolute; /* Position it absolutely */
+    background-color: #333; /* Background color for the dropdown */
+    min-width: 160px; /* Set a minimum width for the dropdown */
+    z-index: 1; /* Display above other elements */
+}
+
+/* Style the dropdown links */
+.navbar .dropdown-content a {
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block; /* Display as block-level elements */
+}
+
+/* Change link color on hover in the dropdown */
+.navbar .dropdown-content a:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+/* Show the dropdown content on hover */
+.navbar .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
