@@ -80,6 +80,9 @@ require_once(__DIR__ . "/../lib/functions.php");
                     <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
                     <?php if(isset($_SESSION['user'])):?>
                         <li><a href="logout.php" class="hover:text-gray-300">Logout</a></li>
+                        <li><a href="cryptonews.html" class="hover:text-gray-300">News</a></li>
+                        <li><a href="CryptoPortfolio.html" class="hover:text-gray-300">Portfolio</a></li>
+                        <li><a href="CryptoGraph.html" class="hover:text-gray-300">Graph</a></li>
                     <?php endif; ?>
                     
                 </ul>
