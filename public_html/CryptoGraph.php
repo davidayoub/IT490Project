@@ -2,55 +2,38 @@
 require(__DIR__."/../partials/nav.php");
 //require(__DIR__."/server_functions/auth_server.php")
 ?>
-<!DOCTYPE html>
-<html lang ="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Trading Graph</title>
-    </head>
-    <body>
-       <!-- TradingView Widget BEGIN -->
+<!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
   <div class="tradingview-widget-container__widget"></div>
   <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
   {
   "symbols": [
     [
-      "Apple",
-      "AAPL|1D"
-    ],
-    [
-      "Google",
-      "GOOGL|1D"
-    ],
-    [
-      "NASDAQ:TSLA|1D"
-    ],
-    [
-      "COINBASE:BTCUSD|1D"
-    ],
-    [
-      "NASDAQ:AMZN|1D"
-    ],
-    [
-      "NASDAQ:MSFT|1D"
+      "BITSTAMP:BTCUSD|1D"
     ],
     [
       "BITSTAMP:ETHUSD|1D"
     ],
     [
-      "NASDAQ:NVDA|1D"
+      "BINANCE:DOGEUSDT|1D"
     ],
     [
-      "AMEX:SPY|1D"
+      "BITSTAMP:XRPUSD|1D"
     ],
     [
-      "NASDAQ:NFLX|1D"
+      "COINBASE:SOLUSD|1D"
     ],
     [
-      "NYSE:PLTR|1D"
+      "BINANCE:SHIBUSDT|1D"
+    ],
+    [
+      "COINBASE:ADAUSD|1D"
+    ],
+    [
+      "KUCOIN:VRAUSDT|1D"
+    ],
+    [
+      "COINBASE:LTCUSD|1D"
     ]
   ],
   "chartOnly": false,
@@ -88,13 +71,5 @@ require(__DIR__."/../partials/nav.php");
 }
   </script>
 </div>
-<!-- TradingView Widget END -->
-
-
-
-    </body>
-
-
-
-</head>
-</html>
+<!-- TradingView Widget END →
+\
