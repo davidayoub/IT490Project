@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //Starting from here everything was commented out
         $db = getDB();
-        $stmt = $db->prepare("SELECT * from users where email = :email or username = :email");
+        $stmt = $db->prepare("SELECT id, username, email, password from users where email = :email or username = :email");
         try {
             $r = $stmt->execute([":email" => $email]);
             if ($r && $user = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -168,14 +168,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
 
-//I just commented below
+
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $db = getDB();
         $stmt = $db->prepare("INSERT INTO users (email, password, username) VALUES(:email, :password, :username)");
         try {
             $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
             echo("Successfully registered!");
-    } catch (Exception $e) {
+        } catch (Exception $e) {
            // users_check_duplicate($e->$errorInfo);
         }
         
