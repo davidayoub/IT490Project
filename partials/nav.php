@@ -70,7 +70,7 @@ require_once(__DIR__ . "/../lib/functions.php");
     <div class="container mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
             <div>
-                <a href="#" class="text-2xl font-bold">BrandName</a>
+                <a href="#" class="text-2xl font-bold">Coin Market</a>
             </div>
             <div>
                 <ul class="flex space-x-4">
@@ -78,11 +78,13 @@ require_once(__DIR__ . "/../lib/functions.php");
                     <li><a href="login_register.php" class="hover:text-gray-300">Register</a></li>
                     <li><a href="services.php" class="hover:text-gray-300">Services</a></li>
                     <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
+                    <li><a href="CryptoGraph.php" class="hover:text-gray-300">Graph</a></li>
+                    <li><a href="recom.php" class="hover:text-gray-300">Recommendations</a></li>
                     <?php if(isset($_SESSION['user'])):?>
                         <li><a href="logout.php" class="hover:text-gray-300">Logout</a></li>
                         <li><a href="cryptonews.html" class="hover:text-gray-300">News</a></li>
                         <li><a href="CryptoPortfolio.html" class="hover:text-gray-300">Portfolio</a></li>
-                        <li><a href="CryptoGraph.html" class="hover:text-gray-300">Graph</a></li>
+                        <li><a href="CryptoGraph.php" class="hover:text-gray-300">Graph</a></li>
                     <?php endif; ?>
                     
                 </ul>
