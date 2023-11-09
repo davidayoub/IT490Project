@@ -49,11 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <body class="bg-white">
-<<<<<<< HEAD
-    <div class="p-4"> <!-- Adding padding to this container -->
-=======
     <div class="p-4"> <!-- Add padding to this container -->
->>>>>>> origin/alejandro_dev1
         <div class="text-center space-y-4">
             <h1>Welcome!</h1>
         </div>
