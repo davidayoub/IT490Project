@@ -70,7 +70,7 @@ require_once(__DIR__ . "/../lib/functions.php");
     <div class="container mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
             <div>
-                <a href="#" class="text-2xl font-bold">Coin Market</a>
+                <a href="" class="text-2xl font-bold">Coin Market</a>
             </div>
             <div>
                 <ul class="flex space-x-4">

@@ -4,7 +4,6 @@ require(__DIR__."/../partials/nav.php");
 ?>
 <!-- start sw-rss-feed code --> 
 <script type="text/javascript"> 
-    <!-- 
     rssfeed_url = new Array(); 
     rssfeed_url[0]="https://rss.app/feeds/cjpqsU8EIMK2My7p.xml";  
     rssfeed_frame_width="1400"; 
@@ -47,3 +46,10 @@ require(__DIR__."/../partials/nav.php");
     <div style="color:#ccc;font-size:10px; text-align:right; width:600px;">powered by <a href="https://surfing-waves.com" rel="noopener" target="_blank" style="color:#ccc;">Surfing Waves</a></div> 
     <!-- end sw-rss-feed code -->
     
+
+
+
+
+<?php
+require(__DIR__ . "/../partials/footer.php");
+?>
