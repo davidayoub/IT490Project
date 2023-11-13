@@ -3,7 +3,7 @@
  * Class NiceSSH
  * refrences: https://www.php.net/manual/en/ref.ssh2.php
  */
-class NSSh{
+class NSSH{
     /**
      * Connect to server via SSH
      * @param string $host
