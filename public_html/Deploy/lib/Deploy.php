@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/Config.php';
 require_once __DIR__ . '/Zip.php';
-require_once __DIR__ . '/NiceSSH.php';
+require_once __DIR__ . '/NSSH.php';
 /**
  * Class Deployer
  * @package Deploy
@@ -16,7 +16,7 @@ class Deployer
     private $prodConfig;
     // Target Folder to retrieve from and send to
     //TODO: Change this to the actual target folder: /var/www/audionook/
-    private $targetDir = "/var/www/audionook/";
+    private $targetDir = "/var/www/IT490Project/";
     // Local Folder to store on Deployment Server
     private $localDir = '';
     /**
@@ -57,7 +57,7 @@ class Deployer
     function retrieve_zips($environment, $srcConf)
     {
         $zip = new Zip();
-        $ssh = new NiceSSH();
+        $ssh = new NSSH();
         $date = date("Y-m-d-H-i");
 
         // DB package retrieval
@@ -131,7 +131,7 @@ class Deployer
     function send_zips($packages, $destConf)
     {
         $zip = new Zip();
-        $ssh = new NiceSSH();
+        $ssh = new NSSH();
 
         // Sending to DB
         $dbSess = $ssh->start_session($destConf->dbHost, $destConf->dbUser, $destConf->dbPass);
@@ -204,7 +204,7 @@ class Deployer
                 echo 'Invalid environment';
                 return;
         }
-        $ssh = new NiceSSH();
+        $ssh = new NSSH();
         $zip = new Zip();
         $session = null;
         $pass = null;
