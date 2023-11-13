@@ -9,7 +9,7 @@ require_once __DIR__ . '/NSSH.php';
  * @property Config $config
  * Deploys the application to a remote server
  */
-class Deployer
+class Deploy
 {
     private $devConfig;
     private $qaConfig;
