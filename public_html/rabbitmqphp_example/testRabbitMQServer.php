@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../rabbitmqphp_example/path.inc');
+//require_once(__DIR__.'/../rabbitmqphp_example/path.inc');
 require_once(__DIR__.'/../rabbitmqphp_example/get_host_info.inc');
 require_once(__DIR__.'/../rabbitmqphp_example/rabbitMQLib.inc');
 require_once(__DIR__.'/../../lib/functions.php');
