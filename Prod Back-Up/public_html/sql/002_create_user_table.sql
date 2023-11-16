@@ -1,0 +1,4 @@
+CREATE USER 'TestUser'@'localhost' IDENTIFIED WITH mysql_native_password BY '12345';
+GRANT USAGE ON *.* TO 'TestUser'@'localhost';
+ALTER USER 'TestUser'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+GRANT ALL PRIVILEGES ON `testdb`.* TO 'TestUser'@'localhost'; 
