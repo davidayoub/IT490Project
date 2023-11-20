@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Watchlist</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+        #watchlist {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stock Watchlist</h1>
+    <label for="symbolInput">Enter Stock Symbol:</label>
+    <input type="text" id="symbolInput">
+    <button onclick="addStock()">Add Stock</button>
+
+    <div id="watchlist"></div>
+
+    <script>
+        // Get your Alpha Vantage API key from https://www.alphavantage.co/support/#api-key
+        const apiKey = '7P8BMMBUOPO5OX5F';
+
+        function addStock() {
+            const symbolInput = $('#symbolInput');
+            const symbol = symbolInput.val().toUpperCase();
+
+            if (!symbol) {
+                alert('Please enter a stock symbol.');
+                return;
+            }
+
+            getStockData(symbol)
+                .then(data => {
+                    if (data) {
+                        addToWatchlist(symbol, data);
+                    } else {
+                        alert(`Failed to add ${symbol} to the watchlist. Please check the symbol.`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching stock data:', error);
+                    alert(`Failed to add ${symbol} to the watchlist. Please try again.`);
+                });
+
+            symbolInput.val('');
+        }
+
+        function getStockData(symbol) {
+            const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
+
+            return $.ajax({
+                url: apiUrl,
+                dataType: 'json',
+                success: function (data) {
+                    if (data['Global Quote']) {
+                        return data['Global Quote'];
+                    } else {
+                        throw new Error(`Failed to get data for ${symbol}. Please check the symbol.`);
+                    }
+                }
+            });
+        }
+
+        function addToWatchlist(symbol, data) {
+            const watchlistDiv = $('#watchlist');
+            const stockInfo = $('<p>').text(`${symbol}: ${data['05. price']} ${data['10. change percent']}`);
+            watchlistDiv.append(stockInfo);
+        }
+    </script>
+</body>
+</html>
