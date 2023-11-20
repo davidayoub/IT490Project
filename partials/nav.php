@@ -86,6 +86,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                         <li><a href="cryptonews.php" class="hover:text-gray-300">News</a></li>
                         <li><a href="CryptoPortfolio.html" class="hover:text-gray-300">Portfolio</a></li>
                         <li><a href="CryptoGraph.php" class="hover:text-gray-300">Graph</a></li>
+                        <li><a href="watchlist.php" class="hover:text-gray-300">Watchlist</a></li>
                     <?php endif; ?>
                     
                 </ul>
