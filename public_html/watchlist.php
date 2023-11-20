@@ -1,3 +1,6 @@
+<?php
+require(__DIR__."/../partials/nav.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,118 +13,78 @@
             margin: 20px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        input {
-            padding: 8px;
+        #watchlist {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Stock Watchlist</h1>
 
-    <form id="addStockForm">
-        <label for="symbol">Symbol:</label>
-        <input type="text" id="symbol" required>
-        <button type="submit">Add Stock</button>
-    </form>
-    
-    <table id="stockTable">
-        <thead>
-            <tr>
-                <th>Symbol</th>
-                <th>Company</th>
-                <th>Price (USD)</th>
-                <th>Change (%)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Stock rows will be added dynamically -->
-        </tbody>
-    </table>
+<h1>Stock Watchlist</h1>
 
-    <script>
-        // Function to get the latest stock information
-        function getStockInfo(symbol) {
-            // Implement logic to fetch stock data from your API
-            // For simplicity, we're using hardcoded data here
-            return {
-                symbol,
-                company: 'Company',
-                price: Math.random() * 100,
-                change: Math.random() * 10 - 5,
-            };
+<div>
+    <label for="stockInput">Enter Stock Symbol:</label>
+    <input type="text" id="stockInput" placeholder="e.g., AAPL">
+    <button onclick="addStock()">Add Stock</button>
+</div>
+
+<div id="watchlist">
+    <h2>Your Watchlist</h2>
+    <ul id="stockList"></ul>
+</div>
+
+<script>
+    // JavaScript code for handling stock watchlist
+
+    // Function to add stock to the watchlist
+    async function addStock() {
+        var stockInput = document.getElementById("stockInput");
+        var stockSymbol = stockInput.value.toUpperCase(); // Convert to uppercase for consistency
+
+        if (stockSymbol.trim() === "") {
+            alert("Please enter a valid stock symbol.");
+            return;
         }
 
-        // Function to populate the table with stock data
-        function populateTable(stockList) {
-            const tableBody = document.querySelector('#stockTable tbody');
+        // Check if the stock is already in the watchlist
+        var stockList = document.getElementById("stockList");
+        var existingStocks = stockList.getElementsByTagName("li");
 
-            // Clear existing rows
-            tableBody.innerHTML = '';
-
-            // Loop through stockList and add rows to the table
-            stockList.forEach(stock => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${stock.symbol}</td>
-                    <td>${stock.company}</td>
-                    <td>${stock.price.toFixed(2)}</td>
-                    <td>${stock.change.toFixed(2)}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Function to handle form submission
-        function addStock(event) {
-            event.preventDefault();
-            const symbolInput = document.querySelector('#symbol');
-            const symbol = symbolInput.value.toUpperCase();
-
-            if (symbol.trim() === '') {
-                alert('Please enter a valid stock symbol.');
+        for (var i = 0; i < existingStocks.length; i++) {
+            if (existingStocks[i].getAttribute("data-symbol") === stockSymbol) {
+                alert("Stock is already in the watchlist.");
+                stockInput.value = ""; // Clear the input field
                 return;
             }
-
-            // Fetch stock data and add to the watchlist
-            const stockData = getStockInfo(symbol);
-            const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-            watchlist.push(stockData);
-            localStorage.setItem('watchlist', JSON.stringify(watchlist));
-
-            // Repopulate the table with updated watchlist
-            populateTable(watchlist);
-
-            // Clear the symbol input
-            symbolInput.value = '';
         }
 
-        // Attach event listener to the form
-        const addStockForm = document.querySelector('#addStockForm');
-        addStockForm.addEventListener('submit', addStock);
+        // Fetch stock information from Alpha Vantage API
+        try {
+            const apiKey = "5CWTZX137YS98CT6"; // Replace with your API key
+            const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${apiKey}`;
+            const response = await fetch(apiUrl);
+            const data = await response.json();
 
-        // Initial population of the table with stored watchlist
-        const initialWatchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-        populateTable(initialWatchlist);
-    </script>
+            // Extract relevant information
+            const companyName = data["Global Quote"]["01. symbol"];
+            const companyPrice = data["Global Quote"]["05. price"];
+            const priceChange = data["Global Quote"]["09. change"];
+
+            // Create a new list item for the stock and add it to the watchlist
+            var newStock = document.createElement("li");
+            newStock.textContent = `${companyName} (${stockSymbol}): Current Price  - ${companyPrice} Price Change - ${priceChange}`;
+            newStock.setAttribute("data-symbol", stockSymbol);
+            stockList.appendChild(newStock);
+
+            // Clear the input field
+            stockInput.value = "";
+        } catch (error) {
+            console.error("Error fetching stock information:", error);
+            alert("Error fetching stock information. Please try again.");
+        }
+    }
+</script>
+
 </body>
 </html>
+
