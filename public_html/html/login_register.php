@@ -70,7 +70,6 @@ require(__DIR__). "/../../partials/login_registration.php";
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="../js/scripts.js"></script>
 </body>
 </html>
 <?php
