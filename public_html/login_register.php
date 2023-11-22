@@ -251,7 +251,6 @@ function se($v, $k = null, $default = "", $isEcho = true)
             <h1>Welcome!</h1>
         </div>
     </div>
-
     <!-- Login and Registration Modals -->
     <div class="flex justify-center">
         <!-- Login Modal -->
