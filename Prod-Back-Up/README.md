@@ -195,3 +195,31 @@ sudo nano /etc/apache2/apache2.conf
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+
+
+Cerfificates for HTTPS are at 
+/etc/httpd/certs
+
+If you want to set up HTTPS for it490project.local, you'll need to add a <VirtualHost *:443> section in your it490project.conf with SSL configurations:
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html/IT490Project/Prod/public_html
+        ServerName it490project.local
+        ServerAlias www.it490project.local
+
+        SSLEngine on
+        SSLCertificateFile /path/to/your/certificate.crt
+        SSLCertificateKeyFile /path/to/your/private.key
+
+        <Directory /var/www/html/IT490Project/Prod/public_html>
+            Options Indexes FollowSymLinks MultiViews
+            AllowOverride All
+            Require all granted
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+    </VirtualHost>
+</IfModule>
+
