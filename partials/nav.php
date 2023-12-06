@@ -80,7 +80,6 @@ require_once(__DIR__ . "/../lib/functions.php");
                     <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
                     <li><a href="CryptoGraph.php" class="hover:text-gray-300">Graph</a></li>
                     <li><a href="recom.php" class="hover:text-gray-300">Recommendations</a></li>
-                    <li><a href="cryptonews.php" class="hover:text-gray-300">News</a></li>
                     <?php if(isset($_SESSION['user'])):?>
                         <li><a href="logout.php" class="hover:text-gray-300">Logout</a></li>
                         <li><a href="cryptonews.php" class="hover:text-gray-300">News</a></li>
