@@ -7,7 +7,7 @@ require(__DIR__."/../partials/nav.php");
     <!-- Main Section -->
     <div class="p-4"> <!-- Padding to the container -->
         <div class="text-center space-y-4">
-            <h1 class="text-3xl font-bold text-var(--theme-color-primary) mt-4">Welcome!</h1>
+            <h1 class="text-3xl font-bold text-var(--theme-color-primary) mt-4">Buy Crypto Now!</h1>
         </div>
     </div>
 
