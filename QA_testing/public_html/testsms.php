@@ -10,8 +10,8 @@ require __DIR__ . '/vendor/autoload.php'; // Adjust the path based on your proje
 use Twilio\Rest\Client;
 
 // Your Twilio Account SID and Auth Token
-$accountSid = 'ACc22d4ecf17d5fa08fa60e235ff56db6a';
-$authToken = '4b40bf4e2989fbf60f0f09e4e0919b54';
+$accountSid = getenv('TWILIO_ACCOUNT_SID');
+$authToken = getenv('TWILIO_AUTH_TOKEN');
 
 // Create a Twilio client
 $client = new Client($accountSid, $authToken);
