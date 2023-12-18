@@ -3,7 +3,7 @@ require(__DIR__."/../partials/nav.php");
 ?>
 
 <style>
-/* Add CSS to center and size the TradingView widget */
+/* Add CSS to center and size tshe TradingView widget */
 .tradingview-widget-container {
   width: 100%; /* full width of the parent element */
   min-width: 300px; /* minimum width */
@@ -17,6 +17,19 @@ require(__DIR__."/../partials/nav.php");
   min-height: 300px; /* minimum height */
   max-height: 600px; /* maximum height */
 }
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+footer {
+  width: 100%;
+  /* Other styles like background, padding, etc. */
+}
+
 </style>
 
 <?php
@@ -58,21 +71,6 @@ $symbolsJson = fetchCryptoSymbols();
 ?>
 
 
-<style>
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-
-footer {
-  width: 100%;
-  /* Other styles like background, padding, etc. */
-}
-
-</style>
 <script type="text/javascript">
   var cryptoSymbols = <?php echo $symbolsJson; ?>;
 
@@ -101,43 +99,7 @@ footer {
 </script>
 
 
-<div class="tradingview-widget-container">
-  <div id="tradingview_cryptos" class="tradingview-widget-container__widget"></div>
-</div>
 
-
-
-
-
-<div class="tradingview-widget-container1">
-  <div id="tradingview_cryptos"></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"> </script>
-  <script type="text/javascript">
-    new TradingView.widget(
-      {
-        "container_id": "tradingview_cryptos",
-        "symbols": cryptoSymbols,
-        "gridLineColor": "#e9e9ea",
-        "fontColor": "#83888D",
-        "underLineColor": "#dbeffb",
-        "trendLineColor": "#4bafe9",
-        "width": "100%", /* Set the width to 100% of the container */
-        "height": "100%", /* Set the height to 100% of the container */
-        "locale": "en",
-        "colorTheme": "light",
-        "autosize": true,
-        "isTransparent": false,
-        "showVolume": true,
-        "scalePosition": "no",
-        "scaleMode": "Normal",
-        "fontFamily": "-apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, 'Helvetica Neue', sans-serif",
-        "noTimeScale": false,
-        "valuesTracking": "1",
-        "chartType": "area"
-      }
-    );
-  </script>
-</div>
 
 
 
@@ -196,6 +158,40 @@ footer {
   ]
 }
 </script>
+
+
+
+
+<div class="tradingview-widget-container1">
+  <div id="tradingview_cryptos"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"> </script>
+  <script type="text/javascript">
+    new TradingView.widget(
+      {
+        "container_id": "tradingview_cryptos",
+        "symbols": cryptoSymbols,
+        "gridLineColor": "#e9e9ea",
+        "fontColor": "#83888D",
+        "underLineColor": "#dbeffb",
+        "trendLineColor": "#4bafe9",
+        "width": "100%", /* Set the width to 100% of the container */
+        "height": "100%", /* Set the height to 100% of the container */
+        "locale": "en",
+        "colorTheme": "light",
+        "autosize": true,
+        "isTransparent": false,
+        "showVolume": true,
+        "scalePosition": "no",
+        "scaleMode": "Normal",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, 'Helvetica Neue', sans-serif",
+        "noTimeScale": false,
+        "valuesTracking": "1",
+        "chartType": "area"
+      }
+    );
+  </script>
+</div>
+
 
 
 
