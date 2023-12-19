@@ -14,8 +14,8 @@ $dotenv->load();
 use Twilio\Rest\Client;
 
 // Your Twilio Account SID and Auth Token
-$accountSid = getenv('TWILIO_ACCOUNT_SID');
-$authToken = getenv('TWILIO_AUTH_TOKEN');
+$accountSid = $_ENV['TWILIO_ACCOUNT_SID'];
+$authToken = $_ENV['TWILIO_AUTH_TOKEN'];
 
 // Create a Twilio client
 $client = new Client($accountSid, $authToken);
