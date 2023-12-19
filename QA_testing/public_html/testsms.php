@@ -2,10 +2,14 @@
 // Display errors for debugging purposes
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL); 
 
 // Include Twilio PHP library
-require __DIR__ . '/vendor/autoload.php'; // Adjust the path based on your project
+require __DIR__ . '/vendor/autoload.php';
+
+use Dotenv\Dotenv; 
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 use Twilio\Rest\Client;
 
