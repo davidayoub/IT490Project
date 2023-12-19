@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL); 
 
 // Include Twilio PHP library
+// Used Twilio php script as reference
 require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv; 
@@ -13,14 +14,14 @@ $dotenv->load();
 
 use Twilio\Rest\Client;
 
-// Your Twilio Account SID and Auth Token
+
 $accountSid = $_ENV['TWILIO_ACCOUNT_SID'];
 $authToken = $_ENV['TWILIO_AUTH_TOKEN'];
 
-// Create a Twilio client
+// Creates Twilio client
 $client = new Client($accountSid, $authToken);
 
-// Replace with your Twilio phone number
+// Twilio phone number
 $fromNumber = '+18447804982'; // Your Twilio phone number
 
 // Check if the form was submitted
@@ -28,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the recipient's phone number from the form input
     $toNumber = $_POST['toNumber']; // The recipient's phone number from the form
 
-    // The message you want to send
+    // Test message
     $messageBody = 'Hello, this is a test message!'; // Default message
 
     try {
