@@ -2,7 +2,7 @@
 require(__DIR__."/../partials/nav.php");
 ?>
 
-<body class="bg-gray-100">
+<body class="bg-white">
     <div class="container mx-auto mt-8">
         <h1 class="text-4xl font-bold mb-8">Contact Us</h1>
 

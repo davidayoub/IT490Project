@@ -49,11 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <body class="bg-white">
-    <div class="p-4"> <!-- Add padding to this container -->
-        <div class="text-center space-y-4">
-            <h1>Welcome!</h1>
-        </div>
-    </div>
 
     <!-- Login and Registration Modals -->
     <div class="flex justify-center">
