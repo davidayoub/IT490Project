@@ -108,7 +108,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                         height="50"
                         alt="Float UI logo"
                     />
-                </a>
+                </a>a
                 -->
                 TygerCrypto
                 <div class="md:hidden">
@@ -123,7 +123,6 @@ require_once(__DIR__ . "/../lib/functions.php");
                 <ul class="justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
                     
                     <li class="text-gray-700 hover:text-indigo-600"><a href="home.php" class="hover:text-gray-300">Home</a></li>
-                    <li class="text-gray-700 hover:text-indigo-600"><a href="login_register.php" class="hover:text-gray-300">Register</a></li>
                     <li class="text-gray-700 hover:text-indigo-600"><a href="services.php" class="hover:text-gray-300">Services</a></li>
                     <li class="text-gray-700 hover:text-indigo-600"><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
                     <li class="text-gray-700 hover:text-indigo-600"><a href="CryptoGraph.php" class="hover:text-gray-300">Graph</a></li>
@@ -140,7 +139,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                     <span class='hidden w-px h-6 bg-gray-300 md:block'></span>
                     <div class='space-y-3 items-center gap-x-6 md:flex md:space-y-0'>
                         <li class="text-gray-700 hover:text-indigo-600">
-                            <a href="../public_html/login_register.php" class="block py-3 text-center text-gray-700 hover:text-indigo-600 border rounded-lg md:border-none">Login</a>
+                            <a href="/login_register.php" class="block py-3 text-center text-gray-700 hover:text-indigo-600 border rounded-lg md:border-none">Login</a>
                         </li>
                     </div>
                 </ul>
