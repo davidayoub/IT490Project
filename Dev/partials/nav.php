@@ -125,22 +125,25 @@ require_once(__DIR__ . "/../lib/functions.php");
                     <li class="text-gray-700 hover:text-indigo-600"><a href="home.php" class="hover:text-gray-300">Home</a></li>
                     <li class="text-gray-700 hover:text-indigo-600"><a href="services.php" class="hover:text-gray-300">Services</a></li>
                     <li class="text-gray-700 hover:text-indigo-600"><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
-                    <li class="text-gray-700 hover:text-indigo-600"><a href="CryptoGraph.php" class="hover:text-gray-300">Graph</a></li>
-                    <li class="text-gray-700 hover:text-indigo-600"><a href="recom.php" class="hover:text-gray-300">Recommendations</a></li>
-                    <li class="text-gray-700 hover:text-indigo-600"><a href="cryptonews.php" class="hover:text-gray-300">News</a></li>
                     <?php if(isset($_SESSION['user'])):?>
-                        <li class="text-gray-700 hover:text-indigo-600"><a href="logout.php" class="hover:text-gray-300">Logout</a></li>
+                        
                         <li class="text-gray-700 hover:text-indigo-600"><a href="cryptonews.php" class="hover:text-gray-300">News</a></li>
                         <li class="text-gray-700 hover:text-indigo-600"><a href="CryptoPortfolio.html" class="hover:text-gray-300">Portfolio</a></li>
                         <li class="text-gray-700 hover:text-indigo-600"><a href="CryptoGraph.php" class="hover:text-gray-300">Graph</a></li>
+                        <li class="text-gray-700 hover:text-indigo-600"><a href="recom.php" class="hover:text-gray-300">Recommendations</a></li>
                     <?php endif; ?>
 
                     <!-- Add more list items as needed -->
                     <span class='hidden w-px h-6 bg-gray-300 md:block'></span>
                     <div class='space-y-3 items-center gap-x-6 md:flex md:space-y-0'>
+                        <?php if (!isset($_SESSION['user'])): ?>
                         <li class="text-gray-700 hover:text-indigo-600">
-                            <a href="/login_register.php" class="block py-3 text-center text-gray-700 hover:text-indigo-600 border rounded-lg md:border-none">Login</a>
+                            <a href="/login_register.php" class="block py-3 text-center text-gray-700 hover:text-indigo-600 border rounded-lg md:border-none">Login</a>                        
                         </li>
+                        <?php endif; ?>
+                        <?php if (isset($_SESSION['user'])): ?>
+                        <li class="text-gray-700 hover:text-indigo-600"><a href="logout.php" class="hover:text-gray-300">Logout</a></li>
+                        <?php endif; ?>
                     </div>
                 </ul>
             </div>
