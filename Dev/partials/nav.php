@@ -128,7 +128,6 @@ require_once(__DIR__ . "/../lib/functions.php");
                         <li class="text-gray-700 hover:text-indigo-600"><a href="recom.php" class="hover:text-gray-300">Recommendations</a></li>
                     <?php endif; ?>
 
-                    <!-- Add more list items as needed -->
                     <span class='hidden w-px h-6 bg-gray-300 md:block'></span>
                     <div class='space-y-3 items-center gap-x-6 md:flex md:space-y-0'>
                         <?php if (!isset($_SESSION['user'])): ?>
