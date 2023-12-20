@@ -50,6 +50,7 @@ IT490Project
         logout.php
 
 
+Fixing issues
 
 #restart apache2
 sudo systemctl restart apache2
