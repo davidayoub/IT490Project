@@ -85,7 +85,7 @@ require_once(__DIR__ . "/../lib/functions.php");
 <div class="bg-black">
     <div class="max-w-screen-xl mx-auto px-4 py-3 text-white sm:text-center md:px-8">
         <p class="font-medium">
-            Free crypto for referral! 
+            Free crypto for referral - LIMITED OFFER!
         </p>
     </div>
 </div>
